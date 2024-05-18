@@ -17,3 +17,9 @@ def create_account():
 
         else:
             message_label.config(text="Passwords do not match. Please try again.")
+
+
+    create_account_window = Toplevel(root)
+    create_account_window.title("Sign-Up")
+    create_account_window.geometry("500x300")
+    create_account_window.config(bg="#F2EEE3")
