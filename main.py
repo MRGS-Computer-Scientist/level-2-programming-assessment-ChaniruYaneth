@@ -58,9 +58,11 @@ def create_account():
 
 # Function to sign in
 def sign_in():
+        # Retrieve inputs
         username = username_entry.get()
         password = password_entry.get()
-
+        
+        # Check if username and password match
         if username in users and users[username] == password:
              message_label.config(text="You have successfully signed in. Enjoy RIGHTWAY!!!")
         else:
