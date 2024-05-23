@@ -71,7 +71,7 @@ def sign_in():
 # Create the main window
 root = Tk()
 root.title("Login Page")
-root.geometry("700x500")
+root.geometry("800x550")
 root.config(bg="#F2EEE3")
 
 # Define users list to store credentials
@@ -85,7 +85,7 @@ resized_logo_image = logo_image.subsample(2, 2)
 
 # Logo label
 logo_label = Label(root, image=resized_logo_image, bg="#F2EEE3")
-logo_label.pack(pady=(20, 10))
+logo_label.pack(pady=(20, 20))
 
 # Do not have an account label
 no_account_label = Label(root, text="Do not have an account?", bg="#F2EEE3", font=("Arial", 14))
@@ -93,11 +93,11 @@ no_account_label.pack()
 
 # Sign up button
 sign_up_button = Button(root, text="SIGN UP", bg="#BCA0A0", font=("Arial", 14), command=create_account)
-sign_up_button.pack(pady=10)
+sign_up_button.pack(pady=20)
 
 # Username label and entry
 username_frame = Frame(root, bg="#F2EEE3")
-username_frame.pack(pady=(0, 10))
+username_frame.pack(pady=(20, 5))
 username_label = Label(username_frame, text="Username:", bg="#F2EEE3", font=("Arial", 14))
 username_label.pack(side=LEFT)
 username_entry = Entry(username_frame, font=("Arial", 14))
