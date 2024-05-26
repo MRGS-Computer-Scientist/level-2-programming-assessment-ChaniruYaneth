@@ -17,7 +17,7 @@ def create_account():
             else:
                 # Add username and password to users list
                 users[username] = password
-                message_label. config(text="You have successfully signed-up.")
+                message_label. config(text="Signing you up...")
                 create_account_window.after(3000, create_account_window.destroy)
 
         else:
@@ -64,9 +64,9 @@ def sign_in():
         
         # Check if username and password match
         if username in users and users[username] == password:
-             message_label.config(text="You have successfully signed in. Enjoy RIGHTWAY!!!")
+             message_label.config(text="You have successfully signed in. Enjoy Right Way!")
         else:
-            message_label.config(text="Username and Password are invalid. Please try again.")
+            message_label.config(text="Username or Password is invalid. Please enter again.")
 
 # Create the main window
 root = Tk()
