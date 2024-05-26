@@ -68,6 +68,11 @@ def sign_in():
         else:
             message_label.config(text="Username or Password is invalid. Please enter again.")
 
+# Function to exit the application
+def exit_app():
+    root.destroy()
+
+
 # Create the main window
 root = Tk()
 root.title("Login Page")
@@ -118,6 +123,11 @@ sign_in_button.pack(pady=10)
 # Message label
 message_label = Label(root, text="", bg="#F2EEE3", fg="red", font=("Arial", 14))
 message_label.pack(pady=10)
+
+# Exit button
+exit_button = Button(root, text="Exit", bg="#BCA0A0", command=exit_app)
+exit_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)  # Top-right corner
+
 
 # Center and align elements
 root.grid_columnconfigure(0, weight=1)
