@@ -1,7 +1,6 @@
 from tkinter import *
 import time
 import csv
-import os
 
 # Funtion to load stored credentials
 def load_credentials():
@@ -106,11 +105,6 @@ def exit_app():
     root.destroy()
 
 
-def set_relative_imgs_path():
-    dirname = path.dirname(__file__)
-    filename = path.join(dirname, 'images/')
-
-
 # Create the main window
 root = Tk()
 root.title("Login Page")
@@ -178,6 +172,3 @@ root.grid_rowconfigure(0, weight=1)
 load_credentials()
 print("Loaded users:", users)  # Print loaded users for debugging
 
-set_relative_imgs_path()
-
-root=mainloop()
