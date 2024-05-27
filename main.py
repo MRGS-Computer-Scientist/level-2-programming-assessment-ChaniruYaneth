@@ -1,5 +1,37 @@
 from tkinter import *
 import time
+import csv
+
+# Funtion to load stored credentials
+def load_credentials():
+    try:
+        with open('credentials.csv', mode='r', newline='') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                username, password = row
+                users[username] = password
+        print("Credentials loaded successfully.")
+        print("Loaded users:", users)  # Print loaded users for debugging
+    except FileNotFoundError:
+        print("Credentials file not found.")
+        # Create an empty file if it doesn't exist
+        with open('credentials.csv', mode='w', newline=''):
+            pass
+    except Exception as e:
+        print("Error loading credentials:", e)
+
+# File will be created when the first user signs up
+
+# Funtion to save new credntials
+def save_credentials(username, password):
+    try:
+        with open('credentials.csv', mode='a', newline='') as file:
+            writer  = csv.writer(file)
+            writer.writerow([username, password])
+        print("Credentials saved successfully.")
+    except Exception as e:
+        print("Error saving credentials:", e)
+
 
 # Function to create an account
 def create_account():
@@ -82,6 +114,10 @@ root.config(bg="#F2EEE3")
 # Define users list to store credentials
 users = {}
 
+# Load stored credentials
+load_credentials()
+print("Loaded users:", users)  # Print loaded users for debugging
+
 # Load logo image
 logo_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\logo.png")
 
@@ -132,6 +168,9 @@ exit_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)  # Top-right cor
 # Center and align elements
 root.grid_columnconfigure(0, weight=1)
 root.grid_rowconfigure(0, weight=1)
+
+load_credentials()
+print("Loaded users:", users)  # Print loaded users for debugging
 
 # Run the application
 root.mainloop()
