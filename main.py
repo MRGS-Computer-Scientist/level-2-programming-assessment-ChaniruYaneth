@@ -174,44 +174,56 @@ def open_main_interface():
     def click_here(message):
         show_loading(f"Taking you to the {message} page")
 
-    resources_label = Label(main_interface, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 16, "bold"))
-    resources_label.place(x=50, y=100)
+    # Frame for resources and materials
+    resources_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
+    resources_frame.place(x=50, y=100, width=300, height=400)
 
-    resources_desc = Label(main_interface, text="To help students further advance and excel in their studies, we offer various materials and resources to help enhance their experience.", bg="#F2EEE3", font=("Arial", 12))
-    resources_desc.place(x=50, y=130)
+    resources_label = Label(resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 16, "bold"))
+    resources_label.pack(pady=(10, 0))
 
-    resources_button = Button(main_interface, text="Click here", bg="#BCA0A0", command=lambda: click_here("study resources"))
-    resources_button.place(x=50, y=180)
+    resources_desc = Label(resources_frame, text="To help students further advance and excel in their studies, we offer various materials and resources to help enhance their experience.", bg="#F2EEE3", font=("Arial", 12), wraplength=280)
+    resources_desc.pack(pady=10)
+
+    resources_button = Button(resources_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("study resources"))
+    resources_button.pack(pady=10)
 
     resources_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\resources.png")
-    resources_label_img = Label(main_interface, image=resources_image, bg="#F2EEE3")
-    resources_label_img.place(x=50, y=220)
+    resources_label_img = Label(resources_frame, image=resources_image, bg="#F2EEE3")
+    resources_label_img.pack(pady=10)
 
-    calendar_label = Label(main_interface, text="CALENDAR", bg="#F2EEE3", font=("Arial", 16, "bold"))
-    calendar_label.place(x=450, y=100)
+    # Frame for calendar
+    calendar_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
+    calendar_frame.place(x=450, y=100, width=300, height=400)
 
-    calendar_desc = Label(main_interface, text="Organize your study schedule and never miss an important date with our calendar. Set reminders for exams, assignments, and events to stay on track and maximize productivity.", bg="#F2EEE3", font=("Arial", 12))
-    calendar_desc.place(x=450, y=130)
+    calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 16, "bold"))
+    calendar_label.pack(pady=(10, 0))
 
-    calendar_button = Button(main_interface, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
-    calendar_button.place(x=450, y=180)
+    calendar_desc = Label(calendar_frame, text="Organize your study schedule and never miss an important date with our calendar. Set reminders for exams, assignments, and events to stay on track and maximize productivity.", bg="#F2EEE3", font=("Arial", 12), wraplength=280)
+    calendar_desc.pack(pady=10)
+
+    calendar_button = Button(calendar_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
+    calendar_button.pack(pady=10)
 
     calendar_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\calendar.png")
-    calendar_label_img = Label(main_interface, image=calendar_image, bg="#F2EEE3")
-    calendar_label_img.place(x=450, y=220)
+    calendar_label_img = Label(calendar_frame, image=calendar_image, bg="#F2EEE3")
+    calendar_label_img.pack(pady=10)
 
-    advice_label = Label(main_interface, text="CAREER ADVICE", bg="#F2EEE3", font=("Arial", 16, "bold"))
-    advice_label.place(x=50, y=350)
+    # Frame for career advice
+    advice_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
+    advice_frame.place(x=50, y=350, width=300, height=400)
 
-    advice_desc = Label(main_interface, text="Organize your study life with the most precise awareness. Career advice provides you an insight on your current progress allowing you to plan your studies successfully.", bg="#F2EEE3", font=("Arial", 12))
-    advice_desc.place(x=50, y=380)
+    advice_label = Label(advice_frame, text="CAREER ADVICE", bg="#F2EEE3", font=("Arial", 16, "bold"))
+    advice_label.pack(pady=(10, 0))
 
-    advice_button = Button(main_interface, text="Click here", bg="#BCA0A0", command=lambda: click_here("career advice"))
-    advice_button.place(x=50, y=430)
+    advice_desc = Label(advice_frame, text="Organize your study life with the most precise awareness. Career advice provides you an insight on your current progress allowing you to plan your studies successfully.", bg="#F2EEE3", font=("Arial", 12), wraplength=280)
+    advice_desc.pack(pady=10)
+
+    advice_button = Button(advice_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("career advice"))
+    advice_button.pack(pady=10)
 
     advice_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\advice.png")
-    advice_label_img = Label(main_interface, image=advice_image, bg="#F2EEE3")
-    advice_label_img.place(x=50, y=470)
+    advice_label_img = Label(advice_frame, image=advice_image, bg="#F2EEE3")
+    advice_label_img.pack(pady=10)
 
     main_interface.mainloop()
 
