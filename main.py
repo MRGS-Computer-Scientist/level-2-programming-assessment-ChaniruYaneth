@@ -1,7 +1,6 @@
 from tkinter import *
 import time
 import csv
-import os
 
 # Funtion to load stored credentials
 def load_credentials():
@@ -25,6 +24,7 @@ def load_credentials():
 
 # Funtion to save new credntials
 def save_credentials(username, password):
+    print("test", username, password)
     try:
         with open('credentials.csv', mode='a', newline='') as file:
             writer  = csv.writer(file)
@@ -55,6 +55,10 @@ def create_account():
 
         else:
             message_label.config(text="Passwords do not match. Please try again.")
+
+        print("Test..")
+        save_credentials(username_entry.get(), password_entry.get())
+
     # Create small window for creating an account
     create_account_window = Toplevel(root)
     create_account_window.title("Create Account")
@@ -89,6 +93,8 @@ def create_account():
     submit_button.grid(row=3, column=0, columnspan=2, pady=10)
     message_label.grid(row=4, column=0, columnspan=2, pady=10)
 
+    
+
 # Function to sign in
 def sign_in():
         # Retrieve inputs
@@ -105,10 +111,6 @@ def sign_in():
 def exit_app():
     root.destroy()
 
-
-def set_relative_imgs_path():
-    dirname = path.dirname(__file__)
-    filename = path.join(dirname, 'images/')
 
 
 # Create the main window
@@ -177,7 +179,5 @@ root.grid_rowconfigure(0, weight=1)
 
 load_credentials()
 print("Loaded users:", users)  # Print loaded users for debugging
-
-set_relative_imgs_path()
 
 root=mainloop()
