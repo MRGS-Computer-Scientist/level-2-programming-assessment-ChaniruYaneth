@@ -51,7 +51,7 @@ def create_account():
                 # Add username and password to users list
                 users[username] = password
                 message_label. config(text="Signing you up...")
-                create_account_window.after(3000, create_account_window.destroy)
+                create_account_window.after(1000, create_account_window.destroy)
 
         else:
             message_label.config(text="Passwords do not match. Please try again.")
