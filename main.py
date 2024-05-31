@@ -238,7 +238,19 @@ def open_main_interface():
     resources_label_img = Label(main_interface, image=resources_image, bg="#F2EEE3")
     resources_label_img.place(x=50, y=220)
 
+    # Calendar section
+    calendar_label = Label(main_interface, text="CALENDAR", bg="#F2EEE3", font=("Arial", 16, "bold"))
+    calendar_label.place(x=450, y=100)
 
+    calendar_desc = Label(main_interface, text="Organize your study schedule and never miss an important date with our calendar. Set reminders for exams, assignments, and events to stay on track and maximize productivity.", bg="#F2EEE3", font=("Arial", 12))
+    calendar_desc.place(x=450, y=130)
+
+    calendar_button = Button(main_interface, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
+    calendar_button.place(x=450, y=180)
+    
+    calendar_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\calendar.png")
+    calendar_label_img = Label(main_interface, image=calendar_image, bg="#F2EEE3")
+    calendar_label_img.place(x=450, y=220)
 
 
 
