@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-import time
 import csv
 
 # Function to load stored credentials
@@ -58,10 +57,10 @@ def create_account():
     username_label = Label(create_account_window, text="Username:", bg="#F2EEE3", font=("Arial", 14))
     username_entry = Entry(create_account_window, font=("Arial", 14))
 
-    password_label = Label(create_account_window, text="Password", bg="#F2EEE3", font=("Arial", 14))
+    password_label = Label(create_account_window, text="Password:", bg="#F2EEE3", font=("Arial", 14))
     password_entry = Entry(create_account_window, show="*", font=("Arial", 14))
 
-    confirm_password_label = Label(create_account_window, text="Confirm Password", bg="#F2EEE3", font=("Arial", 14))
+    confirm_password_label = Label(create_account_window, text="Confirm Password:", bg="#F2EEE3", font=("Arial", 14))
     confirm_password_entry = Entry(create_account_window, show="*", font=("Arial", 14))
 
     submit_button = Button(create_account_window, text="Submit", bg="#BCA0A0", font=("Arial", 14), command=submit)
@@ -95,7 +94,7 @@ def exit_app():
 # Create the main window
 root = Tk()
 root.title("Login Page")
-root.geometry("800x550")
+root.geometry("900x600")
 root.config(bg="#F2EEE3")
 
 users = {}
@@ -143,7 +142,7 @@ root.grid_rowconfigure(0, weight=1)
 
 def show_loading(message):
     loading_overlay = Toplevel(main_interface)
-    loading_overlay.geometry("800x550")
+    loading_overlay.geometry("900x600")
     loading_overlay.attributes('-alpha', 0.8)
     loading_overlay.config(bg="gray")
     loading_overlay.overrideredirect(1)
@@ -159,7 +158,7 @@ def open_main_interface():
 
     main_interface = Tk()
     main_interface.title("Right Way")
-    main_interface.geometry("800x550")
+    main_interface.geometry("900x600")
     main_interface.config(bg="#F2EEE3")
 
     logo_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\logo.png")
@@ -176,29 +175,29 @@ def open_main_interface():
 
     # Frame for resources and materials
     resources_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    resources_frame.place(x=50, y=100, width=300, height=400)
+    resources_frame.place(x=50, y=120, width=360, height=200)
 
-    resources_label = Label(resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 16, "bold"))
+    resources_label = Label(resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 11, "bold"))
     resources_label.pack(pady=(10, 0))
 
-    resources_desc = Label(resources_frame, text="To help students further advance and excel in their studies, we offer various materials and resources to help enhance their experience.", bg="#F2EEE3", font=("Arial", 12), wraplength=280)
+    resources_desc = Label(resources_frame, text="To help students further advance and excel in their studies, we offer various materials and resources to help enhance their experience.", bg="#F2EEE3", font=("Arial", 9), wraplength=350)
     resources_desc.pack(pady=10)
 
     resources_button = Button(resources_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("study resources"))
     resources_button.pack(pady=10)
 
-    resources_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\resources.png")
+    resources_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Pictures\PythonExercises-1\images\calendar.png")
     resources_label_img = Label(resources_frame, image=resources_image, bg="#F2EEE3")
     resources_label_img.pack(pady=10)
 
     # Frame for calendar
     calendar_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    calendar_frame.place(x=450, y=100, width=300, height=400)
+    calendar_frame.place(x=310, y=100, width=220, height=200)
 
-    calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 16, "bold"))
+    calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 12, "bold"))
     calendar_label.pack(pady=(10, 0))
 
-    calendar_desc = Label(calendar_frame, text="Organize your study schedule and never miss an important date with our calendar. Set reminders for exams, assignments, and events to stay on track and maximize productivity.", bg="#F2EEE3", font=("Arial", 12), wraplength=280)
+    calendar_desc = Label(calendar_frame, text="Organize your study schedule and never miss an important date with our calendar. Set reminders for exams, assignments, and events to stay on track and maximize productivity.", bg="#F2EEE3", font=("Arial", 10), wraplength=200)
     calendar_desc.pack(pady=10)
 
     calendar_button = Button(calendar_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
@@ -210,12 +209,12 @@ def open_main_interface():
 
     # Frame for career advice
     advice_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    advice_frame.place(x=50, y=350, width=300, height=400)
+    advice_frame.place(x=570, y=100, width=220, height=200)
 
-    advice_label = Label(advice_frame, text="CAREER ADVICE", bg="#F2EEE3", font=("Arial", 16, "bold"))
+    advice_label = Label(advice_frame, text="CAREER ADVICE", bg="#F2EEE3", font=("Arial", 12, "bold"))
     advice_label.pack(pady=(10, 0))
 
-    advice_desc = Label(advice_frame, text="Organize your study life with the most precise awareness. Career advice provides you an insight on your current progress allowing you to plan your studies successfully.", bg="#F2EEE3", font=("Arial", 12), wraplength=280)
+    advice_desc = Label(advice_frame, text="Get valuable career advice to guide your study efforts effectively. Our resources help you plan and achieve your career goals.", bg="#F2EEE3", font=("Arial", 10), wraplength=200)
     advice_desc.pack(pady=10)
 
     advice_button = Button(advice_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("career advice"))
