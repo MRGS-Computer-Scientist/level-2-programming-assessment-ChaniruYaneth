@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 import time
 import csv
 
@@ -180,4 +181,67 @@ root.grid_rowconfigure(0, weight=1)
 load_credentials()
 print("Loaded users:", users)  # Print loaded users for debugging
 
-root=mainloop()
+
+
+
+# Function to show loading overlay
+def show_loading(message):
+    loading_overlay = Toplevel(main_interface)
+    loading_overlay.geometry("800x550")
+    loading_overlay.attributes('-alpha', 0.8)
+    loading_overlay.config(bg="gray")
+    loading_overlay.overrideredirect(1)
+
+    loading_label = Label(loading_overlay, text=message, font=("Arial", 24), bg="gray", fg="white")
+    loading_label.pack(pady=200)
+
+    # Simulate a loading period
+    main_interface.after(2000, loading_overlay.destroy)
+
+# Function to open the main interface
+def open_main_interface():
+    global main_interface
+    root.destroy()
+
+    main_interface = Tk()
+    main_interface.title("Right Way")
+    main_interface.geometry("800x550")
+    main_interface.config(bg="#F2EEE3")
+
+    # Load logo image
+    logo_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\logo.png")
+    resized_logo_image = logo_image.subsample(2, 2)
+
+    # Logo label
+    logo_label = Label(main_interface, image=resized_logo_image, bg="#F2EEE3")
+    logo_label.place(relx=0.5, y=30, anchor="n")
+
+    # Logout button
+    logout_button = Button(main_interface, text="Logout", bg="#BCA0A0", command=main_interface.destroy)
+    logout_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)  # Top-right corner
+
+    # Function to handle "click here" buttons
+    def click_here(message):
+        show_loading(f"Taking you to the {message} page")
+
+    # Resources and Materials section
+    resources_label = Label(main_interface, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 16, "bold"))
+    resources_label.place(x=50, y=100)
+
+    resources_desc = Label(main_interface, text="To help students further advance and excel in their studies, we offer various materials and resources to help enhance their experience.", bg="#F2EEE3", font=("Arial", 12))
+    resources_desc.place(x=50, y=130)
+
+    resources_button = Button(main_interface, text="Click here", bg="#BCA0A0", command=lambda: click_here("study resources"))
+    resources_button.place(x=50, y=180)
+
+    resources_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\resources.png")
+    resources_label_img = Label(main_interface, image=resources_image, bg="#F2EEE3")
+    resources_label_img.place(x=50, y=220)
+
+
+
+
+
+
+main_interface.mainloop()
+root.mainloop()
