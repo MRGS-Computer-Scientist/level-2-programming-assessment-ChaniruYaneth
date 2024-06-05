@@ -176,18 +176,18 @@ def open_main_interface():
 
     # Frame for resources and materials
     resources_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    resources_frame.place(x=50, y=100, width=250, height=350)
+    resources_frame.place(x=50, y=100, width=300, height=250)
 
-    resources_label = Label(resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 16, "bold"), anchor="w", justify="left")
+    resources_label = Label(resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
     resources_label.pack(pady=(10, 0))
 
-    resources_desc = Label(resources_frame, text="To help students further advance and excel in their studies, we offer various materials and resources to help enhance their experience.", bg="#F2EEE3", font=("Arial", 12), wraplength=230, anchor="w", justify="left")
+    resources_desc = Label(resources_frame, text="To help students further advance and excel in their studies, we offer various materials and resources to help enhance their experience.", bg="#F2EEE3", font=("Arial", 10), wraplength=230, anchor="w", justify="left")
     resources_desc.pack(pady=10)
 
     resources_button = Button(resources_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("study resources"))
     resources_button.pack(pady=10)
 
-    resources_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\resources.png")
+    resources_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\Third Girl.png")
     resources_label_img = Label(resources_frame, image=resources_image, bg="#F2EEE3")
     resources_label_img.pack(pady=10)
 
