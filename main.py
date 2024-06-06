@@ -95,7 +95,7 @@ def exit_app():
 # Create the main window
 root = Tk()
 root.title("Login Page")
-root.geometry("900x600")
+root.geometry("1100x800")
 root.config(bg="#F2EEE3")
 
 users = {}
@@ -110,13 +110,13 @@ logo_label = Label(root, image=resized_logo_image, bg="#F2EEE3")
 logo_label.pack(pady=(20, 20))
 
 no_account_label = Label(root, text="Do not have an account?", bg="#F2EEE3", font=("Arial", 14))
-no_account_label.pack()
+no_account_label.pack(pady=20)
 
 sign_up_button = Button(root, text="SIGN UP", bg="#BCA0A0", font=("Arial", 14), command=create_account)
-sign_up_button.pack(pady=20)
+sign_up_button.pack(pady=15)
 
 username_frame = Frame(root, bg="#F2EEE3")
-username_frame.pack(pady=(20, 5))
+username_frame.pack(pady=(50, 10))
 username_label = Label(username_frame, text="Username:", bg="#F2EEE3", font=("Arial", 14))
 username_label.pack(side=LEFT)
 username_entry = Entry(username_frame, font=("Arial", 14))
@@ -143,7 +143,7 @@ root.grid_rowconfigure(0, weight=1)
 
 def show_loading(message):
     loading_overlay = Toplevel(main_interface)
-    loading_overlay.geometry("900x600")
+    loading_overlay.geometry("1100x900")
     loading_overlay.attributes('-alpha', 0.8)
     loading_overlay.config(bg="gray")
     loading_overlay.overrideredirect(1)
@@ -159,7 +159,7 @@ def open_main_interface():
 
     main_interface = Tk()
     main_interface.title("Right Way")
-    main_interface.geometry("900x600")
+    main_interface.geometry("1100x900")
     main_interface.config(bg="#F2EEE3")
 
     logo_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\logo.png")
@@ -176,7 +176,7 @@ def open_main_interface():
 
     # Frame for resources and materials
     resources_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    resources_frame.place(x=50, y=100, width=300, height=250)
+    resources_frame.place(x=70, y=150, width=300, height=250)
 
     resources_label = Label(resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
     resources_label.pack(pady=(10, 0))
@@ -187,12 +187,13 @@ def open_main_interface():
     resources_button = Button(resources_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("study resources"))
     resources_button.pack(pady=10)
 
-    resources_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\Third Girl.png")
+    resources_image = PhotoImage(file=r"")
     resources_label_img = Label(resources_frame, image=resources_image, bg="#F2EEE3")
     resources_label_img.pack(pady=10)
 
     # Frame for calendar
-    calendar_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
+    calendar_frame = Frame(main_interface, bg="red", bd=2, relief="groove")
+    #calendar_frame.pack()
     calendar_frame.place(x=325, y=100, width=250, height=350)
 
     calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 16, "bold"), anchor="w", justify="left")
