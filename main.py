@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import time
 import csv
+import os
 
 # Function to load stored credentials
 def load_credentials():
@@ -103,7 +104,9 @@ users = {}
 load_credentials()
 print("Loaded users:", users)  # Print loaded users for debugging
 
-logo_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\logo.png")
+# Updated paths to use the relative path to the images folder
+logo_image_path = os.path.join(os.path.dirname(__file__), 'images', 'logo.png')
+logo_image = PhotoImage(file=logo_image_path)
 resized_logo_image = logo_image.subsample(2, 2)
 
 logo_label = Label(root, image=resized_logo_image, bg="#F2EEE3")
@@ -162,7 +165,8 @@ def open_main_interface():
     main_interface.geometry("1100x900")
     main_interface.config(bg="#F2EEE3")
 
-    logo_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\logo.png")
+    logo_image_path = os.path.join(os.path.dirname(__file__), 'images', 'logo.png')
+    logo_image = PhotoImage(file=logo_image_path)
     resized_logo_image = logo_image.subsample(2, 2)
 
     logo_label = Label(main_interface, image=resized_logo_image, bg="#F2EEE3")
@@ -187,7 +191,9 @@ def open_main_interface():
     resources_button = Button(resources_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("study resources"))
     resources_button.pack(pady=10)
 
-    resources_image = PhotoImage(file=r"")
+    # Updated paths to use the relative path to the images folder
+    resources_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Thrid Girl.png')
+    resources_image = PhotoImage(file=resources_image_path)
     resources_label_img = Label(resources_frame, image=resources_image, bg="#F2EEE3")
     resources_label_img.pack(pady=10)
 
@@ -205,7 +211,8 @@ def open_main_interface():
     calendar_button = Button(calendar_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
     calendar_button.pack(pady=10)
 
-    calendar_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\calendar.png")
+    calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'calendar.png')
+    calendar_image = PhotoImage(file=calendar_image_path)
     calendar_label_img = Label(calendar_frame, image=calendar_image, bg="#F2EEE3")
     calendar_label_img.pack(pady=10)
 
@@ -222,7 +229,8 @@ def open_main_interface():
     career_button = Button(career_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("career advice"))
     career_button.pack(pady=10)
 
-    career_image = PhotoImage(file=r"C:\Users\yanet\OneDrive\Desktop\Development\PythonExercises-1\images\career.png")
+    career_image_path = os.path.join(os.path.dirname(__file__), 'images', 'career.png')
+    career_image = PhotoImage(file=career_image_path)
     career_label_img = Label(career_frame, image=career_image, bg="#F2EEE3")
     career_label_img.pack(pady=10)
 
