@@ -180,7 +180,7 @@ def open_main_interface():
 
     # Frame for resources and materials
     resources_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    resources_frame.place(x=70, y=150, width=300, height=250)
+    resources_frame.place(x=70, y=150, width=300, height=450)
 
     resources_label = Label(resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
     resources_label.pack(pady=(10, 0))
@@ -192,7 +192,7 @@ def open_main_interface():
     resources_button.pack(pady=10)
 
     # Updated paths to use the relative path to the images folder
-    resources_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Thrid Girl.png')
+    resources_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Books.png')
     resources_image = PhotoImage(file=resources_image_path)
     resources_label_img = Label(resources_frame, image=resources_image, bg="#F2EEE3")
     resources_label_img.pack(pady=10)
@@ -200,7 +200,7 @@ def open_main_interface():
     # Frame for calendar
     calendar_frame = Frame(main_interface, bg="red", bd=2, relief="groove")
     #calendar_frame.pack()
-    calendar_frame.place(x=325, y=100, width=250, height=350)
+    calendar_frame.place(x=400, y=150, width=250, height=500)
 
     calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 16, "bold"), anchor="w", justify="left")
     calendar_label.pack(pady=(10, 0))
@@ -211,14 +211,14 @@ def open_main_interface():
     calendar_button = Button(calendar_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
     calendar_button.pack(pady=10)
 
-    calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'calendar.png')
+    calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Calendar.webp')
     calendar_image = PhotoImage(file=calendar_image_path)
     calendar_label_img = Label(calendar_frame, image=calendar_image, bg="#F2EEE3")
     calendar_label_img.pack(pady=10)
 
     # Frame for career advice
-    career_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    career_frame.place(x=600, y=100, width=250, height=350)
+    career_frame = Frame(main_interface, bg="blue", bd=2, relief="groove")
+    career_frame.place(x=700, y=150, width=250, height=350)
 
     career_label = Label(career_frame, text="CAREER ADVICE", bg="#F2EEE3", font=("Arial", 16, "bold"), anchor="w", justify="left")
     career_label.pack(pady=(10, 0))
@@ -229,7 +229,7 @@ def open_main_interface():
     career_button = Button(career_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("career advice"))
     career_button.pack(pady=10)
 
-    career_image_path = os.path.join(os.path.dirname(__file__), 'images', 'career.png')
+    career_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Resources Girl.png')
     career_image = PhotoImage(file=career_image_path)
     career_label_img = Label(career_frame, image=career_image, bg="#F2EEE3")
     career_label_img.pack(pady=10)
