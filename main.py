@@ -198,8 +198,7 @@ def open_main_interface():
     resources_label_img.pack(pady=10)
 
     # Frame for calendar
-    calendar_frame = Frame(main_interface, bg="red", bd=2, relief="groove")
-    #calendar_frame.pack()
+    calendar_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
     calendar_frame.place(x=400, y=150, width=250, height=500)
 
     calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 16, "bold"), anchor="w", justify="left")
@@ -211,13 +210,13 @@ def open_main_interface():
     calendar_button = Button(calendar_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
     calendar_button.pack(pady=10)
 
-    calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Calendar.webp')
+    calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Calendar.png')
     calendar_image = PhotoImage(file=calendar_image_path)
     calendar_label_img = Label(calendar_frame, image=calendar_image, bg="#F2EEE3")
     calendar_label_img.pack(pady=10)
 
     # Frame for career advice
-    career_frame = Frame(main_interface, bg="blue", bd=2, relief="groove")
+    career_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
     career_frame.place(x=700, y=150, width=250, height=350)
 
     career_label = Label(career_frame, text="CAREER ADVICE", bg="#F2EEE3", font=("Arial", 16, "bold"), anchor="w", justify="left")
@@ -229,7 +228,7 @@ def open_main_interface():
     career_button = Button(career_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("career advice"))
     career_button.pack(pady=10)
 
-    career_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Resources Girl.png')
+    career_image_path = os.path.join(os.path.dirname(__file__), 'images', 'CAG.png')
     career_image = PhotoImage(file=career_image_path)
     career_label_img = Label(career_frame, image=career_image, bg="#F2EEE3")
     career_label_img.pack(pady=10)
