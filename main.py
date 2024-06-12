@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import time
 import csv
 import os
@@ -86,9 +86,19 @@ def sign_in():
     else:
         message_label.config(text="Username or Password is invalid. Please enter again.")
 
-# Function to exit the application
-def exit_app():
-    root.destroy()
+# Function to center a window
+def center_window(window, width, height):
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    x = int((screen_width / 2) - (width / 2))
+    y = int((screen_height / 2) - (height / 2))
+    window.geometry(f'{width}x{height}+{x}+{y}')
+
+# Function to confirm exit
+def confirm_exit():
+    center_window(root, 1100, 800)
+    if messagebox.askyesno("Exit", "Are you sure you want to exit Right Way?"):
+        root.destroy()
 
 # Create the main window
 root = Tk()
@@ -98,6 +108,9 @@ root.config(bg="#F2EEE3")
 
 users = {}
 load_credentials()
+
+# Center the root window
+center_window(root, 1100, 800)
 
 # Updated paths to use the relative path to the images folder
 logo_image_path = os.path.join(os.path.dirname(__file__), 'images', 'logo.png')
@@ -133,7 +146,7 @@ sign_in_button.pack(pady=10)
 message_label = Label(root, text="", bg="#F2EEE3", fg="red", font=("Arial", 14))
 message_label.pack(pady=10)
 
-exit_button = Button(root, text="Exit", bg="#BCA0A0", command=exit_app)
+exit_button = Button(root, text="Exit", bg="#BCA0A0", command=confirm_exit)
 exit_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)
 
 root.grid_columnconfigure(0, weight=1)
@@ -160,6 +173,9 @@ def open_main_interface():
     main_interface.geometry("1100x900")
     main_interface.config(bg="#F2EEE3")
 
+    # Center the main interface window
+    center_window(main_interface, 1100, 900)
+
     # Store images in a dictionary to keep references
     images = {}
 
@@ -170,7 +186,13 @@ def open_main_interface():
     logo_label = Label(main_interface, image=resized_logo_image, bg="#F2EEE3")
     logo_label.pack(pady=(10, 10))
 
-    logout_button = Button(main_interface, text="Logout", bg="#BCA0A0", command=main_interface.destroy)
+    # Function to confirm logout
+    def confirm_logout():
+        center_window(main_interface, 1100, 900)
+        if messagebox.askyesno("Logout", "Are you sure you want to log out from Right Way?"):
+            main_interface.destroy()
+
+    logout_button = Button(main_interface, text="Logout", bg="#BCA0A0", command=confirm_logout)
     logout_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)
 
     def click_here(message):
@@ -183,7 +205,7 @@ def open_main_interface():
     resources_label = Label(resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
     resources_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-    resources_desc = Label(resources_frame, text="To help students further advance and excel in their studies, we offer various materials and resources to help enhance their experience.", bg="#F2EEE3", font=("Arial", 10), wraplength=400, anchor="w", justify="left")
+    resources_desc = Label(resources_frame, text="Our resources section offers a variety of materials to help you excel in your studies. Access textbooks, study guides, and more.", bg="#F2EEE3", font=("Arial", 12), wraplength=600, anchor="w", justify="left")
     resources_desc.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
     resources_button = Button(resources_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("resources"))
@@ -192,7 +214,7 @@ def open_main_interface():
     resources_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Books.png')
     images['resources_image'] = PhotoImage(file=resources_image_path)
     resources_label_img = Label(resources_frame, image=images['resources_image'], bg="#F2EEE3")
-    resources_label_img.grid(row=0, column=1, rowspan=3, padx=10, pady=10)
+    resources_label_img.grid(row=0, column=1, rowspan=3, padx=40, pady=10)
 
     # Frame for calendar
     calendar_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
@@ -201,7 +223,7 @@ def open_main_interface():
     calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
     calendar_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-    calendar_desc = Label(calendar_frame, text="Keep track of important dates and events with our integrated calendar. Stay organized and never miss a deadline.", bg="#F2EEE3", font=("Arial", 10), wraplength=400, anchor="w", justify="left")
+    calendar_desc = Label(calendar_frame, text="Keep track of important dates and events with our integrated calendar. Stay organized and never miss a deadline.", bg="#F2EEE3", font=("Arial", 12), wraplength=600, anchor="w", justify="left")
     calendar_desc.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
     calendar_button = Button(calendar_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
