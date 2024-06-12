@@ -13,10 +13,8 @@ def load_credentials():
                 username, password = row
                 users[username] = password
         print("Credentials loaded successfully.")
-        print("Loaded users:", users)  # Print loaded users for debugging
     except FileNotFoundError:
         print("Credentials file not found.")
-        # Create an empty file if it doesn't exist
         with open('credentials.csv', mode='w', newline=''):
             pass
     except Exception as e:
@@ -24,7 +22,6 @@ def load_credentials():
 
 # Function to save new credentials
 def save_credentials(username, password):
-    print("test", username, password)
     try:
         with open('credentials.csv', mode='a', newline='') as file:
             writer = csv.writer(file)
@@ -100,9 +97,7 @@ root.geometry("1100x800")
 root.config(bg="#F2EEE3")
 
 users = {}
-
 load_credentials()
-print("Loaded users:", users)  # Print loaded users for debugging
 
 # Updated paths to use the relative path to the images folder
 logo_image_path = os.path.join(os.path.dirname(__file__), 'images', 'logo.png')
@@ -165,12 +160,15 @@ def open_main_interface():
     main_interface.geometry("1100x900")
     main_interface.config(bg="#F2EEE3")
 
+    # Store images in a dictionary to keep references
+    images = {}
+
     logo_image_path = os.path.join(os.path.dirname(__file__), 'images', 'logo.png')
-    logo_image = PhotoImage(file=logo_image_path)
-    resized_logo_image = logo_image.subsample(2, 2)
+    images['logo_image'] = PhotoImage(file=logo_image_path)
+    resized_logo_image = images['logo_image'].subsample(2, 2)
 
     logo_label = Label(main_interface, image=resized_logo_image, bg="#F2EEE3")
-    logo_label.place(relx=0.5, y=30, anchor="n")
+    logo_label.pack(pady=(10, 10))
 
     logout_button = Button(main_interface, text="Logout", bg="#BCA0A0", command=main_interface.destroy)
     logout_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)
@@ -180,58 +178,57 @@ def open_main_interface():
 
     # Frame for resources and materials
     resources_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    resources_frame.place(x=70, y=150, width=400, height=500)
+    resources_frame.pack(padx=20, pady=20, fill="x")
 
     resources_label = Label(resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
-    resources_label.pack(pady=(10, 0))
+    resources_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-    resources_desc = Label(resources_frame, text="To help students further advance and excel in their studies, we offer various materials and resources to help enhance their experience.", bg="#F2EEE3", font=("Arial", 10), wraplength=230, anchor="w", justify="left")
-    resources_desc.pack(pady=10)
+    resources_desc = Label(resources_frame, text="To help students further advance and excel in their studies, we offer various materials and resources to help enhance their experience.", bg="#F2EEE3", font=("Arial", 10), wraplength=400, anchor="w", justify="left")
+    resources_desc.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
-    resources_button = Button(resources_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("study resources"))
-    resources_button.pack(pady=10)
+    resources_button = Button(resources_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("resources"))
+    resources_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
-    # Updated paths to use the relative path to the images folder
     resources_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Books.png')
-    resources_image = PhotoImage(file=resources_image_path)
-    resources_label_img = Label(resources_frame, image=resources_image, bg="#F2EEE3")
-    resources_label_img.pack(pady=10)
+    images['resources_image'] = PhotoImage(file=resources_image_path)
+    resources_label_img = Label(resources_frame, image=images['resources_image'], bg="#F2EEE3")
+    resources_label_img.grid(row=0, column=1, rowspan=3, padx=10, pady=10)
 
     # Frame for calendar
     calendar_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    calendar_frame.place(x=500, y=150, width=300, height=500)
+    calendar_frame.pack(padx=20, pady=20, fill="x")
 
-    calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 16, "bold"), anchor="w", justify="left")
-    calendar_label.pack(pady=(10, 0))
+    calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
+    calendar_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-    calendar_desc = Label(calendar_frame, text="Keep track of important dates and events with our integrated calendar. Stay organized and never miss a deadline.", bg="#F2EEE3", font=("Arial", 12), wraplength=230, anchor="w", justify="left")
-    calendar_desc.pack(pady=10)
+    calendar_desc = Label(calendar_frame, text="Keep track of important dates and events with our integrated calendar. Stay organized and never miss a deadline.", bg="#F2EEE3", font=("Arial", 10), wraplength=400, anchor="w", justify="left")
+    calendar_desc.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
     calendar_button = Button(calendar_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
-    calendar_button.pack(pady=10)
+    calendar_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
     calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Calendar.png')
-    calendar_image = PhotoImage(file=calendar_image_path)
-    calendar_label_img = Label(calendar_frame, image=calendar_image, bg="#F2EEE3")
-    calendar_label_img.pack(pady=10)
+    images['calendar_image'] = PhotoImage(file=calendar_image_path)
+    calendar_label_img = Label(calendar_frame, image=images['calendar_image'], bg="#F2EEE3")
+    calendar_label_img.grid(row=0, column=1, rowspan=3, padx=10, pady=10)
 
     # Frame for career advice
     career_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    career_frame.place(x=700, y=150, width=250, height=350)
+    career_frame.pack(padx=20, pady=20, fill="x")
 
-    career_label = Label(career_frame, text="CAREER ADVICE", bg="#F2EEE3", font=("Arial", 16, "bold"), anchor="w", justify="left")
-    career_label.pack(pady=(10, 0))
+    career_label = Label(career_frame, text="CAREER ADVICE", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
+    career_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-    career_desc = Label(career_frame, text="Our career advice section offers guidance to help you make informed decisions about your future career path. Get tips and advice from professionals.", bg="#F2EEE3", font=("Arial", 12), wraplength=230, anchor="w", justify="left")
-    career_desc.pack(pady=10)
+    career_desc = Label(career_frame, text="Our career advice section offers guidance to help you make informed decisions about your future career path. Get tips and advice from professionals.", bg="#F2EEE3", font=("Arial", 10), wraplength=400, anchor="w", justify="left")
+    career_desc.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
     career_button = Button(career_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("career advice"))
-    career_button.pack(pady=10)
+    career_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
     career_image_path = os.path.join(os.path.dirname(__file__), 'images', 'CAG.png')
-    career_image = PhotoImage(file=career_image_path)
-    career_label_img = Label(career_frame, image=career_image, bg="#F2EEE3")
-    career_label_img.pack(pady=10)
+    images['career_image'] = PhotoImage(file=career_image_path)
+    career_label_img = Label(career_frame, image=images['career_image'], bg="#F2EEE3")
+    career_label_img.grid(row=0, column=1, rowspan=3, padx=10, pady=10)
 
     main_interface.mainloop()
 
