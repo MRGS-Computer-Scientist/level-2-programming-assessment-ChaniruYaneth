@@ -180,7 +180,7 @@ def open_main_interface():
 
     # Frame for resources and materials
     resources_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    resources_frame.place(x=70, y=150, width=300, height=450)
+    resources_frame.place(x=70, y=150, width=400, height=500)
 
     resources_label = Label(resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
     resources_label.pack(pady=(10, 0))
@@ -199,7 +199,7 @@ def open_main_interface():
 
     # Frame for calendar
     calendar_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    calendar_frame.place(x=400, y=150, width=250, height=500)
+    calendar_frame.place(x=500, y=150, width=300, height=500)
 
     calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 16, "bold"), anchor="w", justify="left")
     calendar_label.pack(pady=(10, 0))
