@@ -197,6 +197,7 @@ def open_main_interface():
 
     def click_here(message):
         show_loading(f"Taking you to the {message} page")
+        main_interface.after(2000, open_resources_page)
 
     # Frame for resources and materials
     resources_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
@@ -229,7 +230,7 @@ def open_main_interface():
     calendar_button = Button(calendar_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
     calendar_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
-    calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Calendar.png')
+    calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Calendar.webp')
     images['calendar_image'] = PhotoImage(file=calendar_image_path)
     calendar_label_img = Label(calendar_frame, image=images['calendar_image'], bg="#F2EEE3")
     calendar_label_img.grid(row=0, column=1, rowspan=3, padx=10, pady=10)
@@ -247,11 +248,109 @@ def open_main_interface():
     career_button = Button(career_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("career advice"))
     career_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
-    career_image_path = os.path.join(os.path.dirname(__file__), 'images', 'CAG.png')
+    career_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Career Advice Girl.png')
     images['career_image'] = PhotoImage(file=career_image_path)
     career_label_img = Label(career_frame, image=images['career_image'], bg="#F2EEE3")
     career_label_img.grid(row=0, column=1, rowspan=3, padx=10, pady=10)
 
     main_interface.mainloop()
+
+def open_resources_page():
+    resources_page = Toplevel(main_interface)
+    resources_page.title("Resources and Materials")
+    resources_page.geometry("1100x900")
+    resources_page.config(bg="#F2EEE3")
+    center_window(resources_page, 1100, 900)
+
+    logo_label = Label(resources_page, image=resized_logo_image, bg="#F2EEE3")
+    logo_label.pack(pady=(10, 10))
+
+    logout_button = Button(resources_page, text="Logout", bg="#BCA0A0", command=confirm_logout)
+    logout_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)
+
+    resources_desc_label = Label(resources_page, text="Find resources and materials for your NCEA Level 2 subjects below.", bg="#F2EEE3", font=("Arial", 14), wraplength=600, anchor="w", justify="left")
+    resources_desc_label.pack(pady=(20, 10))
+
+    search_bar_frame = Frame(resources_page, bg="#F2EEE3")
+    search_bar_frame.pack(pady=(10, 10))
+    search_bar_label = Label(search_bar_frame, text="Search:", bg="#F2EEE3", font=("Arial", 14))
+    search_bar_label.pack(side=LEFT, padx=(10, 5))
+    search_bar_entry = Entry(search_bar_frame, font=("Arial", 14))
+    search_bar_entry.pack(side=LEFT, fill=X, expand=True)
+
+    # Function for handling search bar input
+    def on_search_input(event):
+        query = search_bar_entry.get().lower()
+        suggestions = [subject for subject in subjects if query in subject.lower()]
+        update_suggestions(suggestions)
+
+    search_bar_entry.bind("<KeyRelease>", on_search_input)
+
+    # Listbox to display search suggestions
+    suggestions_listbox = Listbox(resources_page, font=("Arial", 14), bg="#F2EEE3")
+    suggestions_listbox.pack(pady=(10, 10), padx=20, fill=X)
+
+    # Function to update suggestion list
+    def update_suggestions(suggestions):
+        suggestions_listbox.delete(0, END)
+        for suggestion in suggestions:
+            suggestions_listbox.insert(END, suggestion)
+
+    subjects = ["Accounting", "Economics", "English", "Maths", "Computer Science", "Chemistry", "Physics", "Biology"]
+
+    # Function to open a new window with exam links
+    def open_exam_links(subject):
+        exam_links_page = Toplevel(resources_page)
+        exam_links_page.title(f"{subject} Exams")
+        exam_links_page.geometry("600x400")
+        exam_links_page.config(bg="#F2EEE3")
+        center_window(exam_links_page, 600, 400)
+
+        internal_label = Label(exam_links_page, text=f"Internal Exams - {subject}", bg="#F2EEE3", font=("Arial", 14))
+        internal_label.pack(pady=(20, 10))
+        internal_link = Label(exam_links_page, text="Click here for Internal Exams", bg="#F2EEE3", font=("Arial", 12), fg="blue", cursor="hand2")
+        internal_link.pack(pady=(5, 5))
+        internal_link.bind("<Button-1>", lambda e: open_web_link(internal_links[subject]))
+
+        external_label = Label(exam_links_page, text=f"External Exams - {subject}", bg="#F2EEE3", font=("Arial", 14))
+        external_label.pack(pady=(20, 10))
+        external_link = Label(exam_links_page, text="Click here for External Exams", bg="#F2EEE3", font=("Arial", 12), fg="blue", cursor="hand2")
+        external_link.pack(pady=(5, 5))
+        external_link.bind("<Button-1>", lambda e: open_web_link(external_links[subject]))
+
+    # Function to open web link in browser
+    def open_web_link(url):
+        import webbrowser
+        webbrowser.open(url)
+
+    # Dictionaries to store exam links (to be provided)
+    internal_links = {
+        "Accounting": "http://example.com/accounting_internal",
+        "Economics": "http://example.com/economics_internal",
+        "English": "http://example.com/english_internal",
+        "Maths": "http://example.com/maths_internal",
+        "Computer Science": "http://example.com/computer_science_internal",
+        "Chemistry": "http://example.com/chemistry_internal",
+        "Physics": "http://example.com/physics_internal",
+        "Biology": "http://example.com/biology_internal"
+    }
+
+    external_links = {
+        "Accounting": "http://example.com/accounting_external",
+        "Economics": "http://example.com/economics_external",
+        "English": "http://example.com/english_external",
+        "Maths": "http://example.com/maths_external",
+        "Computer Science": "http://example.com/computer_science_external",
+        "Chemistry": "http://example.com/chemistry_external",
+        "Physics": "http://example.com/physics_external",
+        "Biology": "http://example.com/biology_external"
+    }
+
+    # Function to handle suggestion selection
+    def on_suggestion_select(event):
+        selected_subject = suggestions_listbox.get(suggestions_listbox.curselection())
+        open_exam_links(selected_subject)
+
+    suggestions_listbox.bind("<<ListboxSelect>>", on_suggestion_select)
 
 root.mainloop()
