@@ -103,7 +103,7 @@ def confirm_exit():
 # Create the main window
 root = Tk()
 root.title("Login Page")
-root.geometry("1100x800")
+root.geometry("1100x900")
 root.config(bg="#F2EEE3")
 
 users = {}
@@ -170,7 +170,7 @@ def open_main_interface():
 
     main_interface = Tk()
     main_interface.title("Right Way")
-    main_interface.geometry("1100x900")
+    main_interface.geometry("1100x950")
     main_interface.config(bg="#F2EEE3")
 
     # Center the main interface window
@@ -215,11 +215,11 @@ def open_main_interface():
     resources_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Books.png')
     images['resources_image'] = PhotoImage(file=resources_image_path)
     resources_label_img = Label(resources_frame, image=images['resources_image'], bg="#F2EEE3")
-    resources_label_img.grid(row=0, column=1, rowspan=3, padx=40, pady=10)
+    resources_label_img.grid(row=0, column=1, rowspan=3, padx=50, pady=10)
 
     # Frame for calendar
     calendar_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    calendar_frame.pack(padx=20, pady=20, fill="x")
+    calendar_frame.pack(padx=20, pady=10, fill="x")
 
     calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
     calendar_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
@@ -230,28 +230,28 @@ def open_main_interface():
     calendar_button = Button(calendar_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
     calendar_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
-    calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Calendar.webp')
+    calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Calendar.png')
     images['calendar_image'] = PhotoImage(file=calendar_image_path)
     calendar_label_img = Label(calendar_frame, image=images['calendar_image'], bg="#F2EEE3")
-    calendar_label_img.grid(row=0, column=1, rowspan=3, padx=10, pady=10)
+    calendar_label_img.grid(row=0, column=1, rowspan=3, padx=50, pady=10)
 
     # Frame for career advice
     career_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
-    career_frame.pack(padx=20, pady=20, fill="x")
+    career_frame.pack(padx=20, pady=10, fill="x")
 
     career_label = Label(career_frame, text="CAREER ADVICE", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
     career_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-    career_desc = Label(career_frame, text="Our career advice section offers guidance to help you make informed decisions about your future career path. Get tips and advice from professionals.", bg="#F2EEE3", font=("Arial", 10), wraplength=400, anchor="w", justify="left")
+    career_desc = Label(career_frame, text="Our career advice section offers guidance to help you make informed decisions about your future career path. Get tips and advice from professionals.", bg="#F2EEE3", font=("Arial", 12), wraplength=600, anchor="w", justify="left")
     career_desc.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
     career_button = Button(career_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("career advice"))
-    career_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+    career_button.grid(row=2, column=0, padx=10, pady=2, sticky="w")
 
     career_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Career Advice Girl.png')
     images['career_image'] = PhotoImage(file=career_image_path)
     career_label_img = Label(career_frame, image=images['career_image'], bg="#F2EEE3")
-    career_label_img.grid(row=0, column=1, rowspan=3, padx=10, pady=10)
+    career_label_img.grid(row=0, column=1, rowspan=3, padx=20, pady=10)
 
     main_interface.mainloop()
 
