@@ -206,7 +206,7 @@ def open_main_interface():
     resources_label = Label(resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
     resources_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-    resources_desc = Label(resources_frame, text="Our resources section offers a variety of materials to help you excel in your studies. Access textbooks, study guides, and more.", bg="#F2EEE3", font=("Arial", 12), wraplength=600, anchor="w", justify="left")
+    resources_desc = Label(resources_frame, text="Our resources section offers a variety of materials to help you excel in your studies. Access textbooks, study guides, and more.", bg="#F2EEE3", font=("Arial", 12), wraplength=550, anchor="w", justify="left")
     resources_desc.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
     resources_button = Button(resources_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("resources"))
@@ -222,18 +222,18 @@ def open_main_interface():
     calendar_frame.pack(padx=20, pady=10, fill="x")
 
     calendar_label = Label(calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
-    calendar_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+    calendar_label.grid(row=0, column=1, padx=85, pady=10, sticky="w")
 
-    calendar_desc = Label(calendar_frame, text="Keep track of important dates and events with our integrated calendar. Stay organized and never miss a deadline.", bg="#F2EEE3", font=("Arial", 12), wraplength=600, anchor="w", justify="left")
-    calendar_desc.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+    calendar_desc = Label(calendar_frame, text="Keep track of important dates and events with our integrated calendar. Stay organized and never miss a deadline.", bg="#F2EEE3", font=("Arial", 12), wraplength=550, anchor="w", justify="left")
+    calendar_desc.grid(row=1, column=1, padx=85, pady=10, sticky="w")
 
     calendar_button = Button(calendar_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("calendar"))
-    calendar_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+    calendar_button.grid(row=2, column=1, padx=85, pady=10, sticky="w")
 
     calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Calendar.png')
     images['calendar_image'] = PhotoImage(file=calendar_image_path)
     calendar_label_img = Label(calendar_frame, image=images['calendar_image'], bg="#F2EEE3")
-    calendar_label_img.grid(row=0, column=1, rowspan=3, padx=50, pady=10)
+    calendar_label_img.grid(row=0, column=0, rowspan=3, padx=50, pady=10)
 
     # Frame for career advice
     career_frame = Frame(main_interface, bg="#F2EEE3", bd=2, relief="groove")
@@ -242,7 +242,7 @@ def open_main_interface():
     career_label = Label(career_frame, text="CAREER ADVICE", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
     career_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-    career_desc = Label(career_frame, text="Our career advice section offers guidance to help you make informed decisions about your future career path. Get tips and advice from professionals.", bg="#F2EEE3", font=("Arial", 12), wraplength=600, anchor="w", justify="left")
+    career_desc = Label(career_frame, text="Our career advice section offers guidance to help you make informed decisions about your future career path. Get tips and advice from professionals.", bg="#F2EEE3", font=("Arial", 12), wraplength=550, anchor="w", justify="left")
     career_desc.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
     career_button = Button(career_frame, text="Click here", bg="#BCA0A0", command=lambda: click_here("career advice"))
