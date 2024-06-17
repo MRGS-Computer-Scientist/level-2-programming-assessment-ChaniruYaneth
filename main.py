@@ -278,6 +278,12 @@ def open_resources_page():
     search_bar_entry = Entry(search_bar_frame, font=("Arial", 14))
     search_bar_entry.pack(side=LEFT, fill=X, expand=True)
 
+    resources_girl_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Resources Girl.png')
+    resources_girl_image = PhotoImage(file=resources_girl_image_path)
+
+    resources_girl_label = Label(root, image=resources_girl_image, bg="#F2EEE3")
+    resources_girl_label.place(relx=1.0, rely=1.0, anchor='se', x=-20, y=-20)
+
     # Function for handling search bar input
     def on_search_input(event):
         query = search_bar_entry.get().lower()
@@ -296,7 +302,7 @@ def open_resources_page():
         for suggestion in suggestions:
             suggestions_listbox.insert(END, suggestion)
 
-    subjects = ["Accounting", "Economics", "English", "Maths", "Computer Science", "Chemistry", "Physics", "Biology"]
+    subjects = ["Accounting", "Economics", "English", "Maths", "Chemistry", "Physics", "Biology"]
 
     # Function to open a new window with exam links
     def open_exam_links(subject):
@@ -325,25 +331,23 @@ def open_resources_page():
 
     # Dictionaries to store exam links (to be provided)
     internal_links = {
-        "Accounting": "http://example.com/accounting_internal",
-        "Economics": "http://example.com/economics_internal",
-        "English": "http://example.com/english_internal",
-        "Maths": "http://example.com/maths_internal",
-        "Computer Science": "http://example.com/computer_science_internal",
-        "Chemistry": "http://example.com/chemistry_internal",
-        "Physics": "http://example.com/physics_internal",
-        "Biology": "http://example.com/biology_internal"
+        "Accounting": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=accounting&view=exams&level=02",
+        "Economics": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=economics&view=files&level=02",
+        "English": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=english&view=exams&level=02",
+        "Maths": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=math&view=exams&level=02",
+        "Chemistry": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=chemistry&view=exams&level=02",
+        "Physics": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=physics&view=exams&level=02",
+        "Biology": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=biology&view=exams&level=02"
     }
 
     external_links = {
-        "Accounting": "http://example.com/accounting_external",
-        "Economics": "http://example.com/economics_external",
-        "English": "http://example.com/english_external",
-        "Maths": "http://example.com/maths_external",
-        "Computer Science": "http://example.com/computer_science_external",
-        "Chemistry": "http://example.com/chemistry_external",
-        "Physics": "http://example.com/physics_external",
-        "Biology": "http://example.com/biology_external"
+        "Accounting": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=accounting&view=exams&level=02",
+        "Economics": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=economics&view=files&level=02",
+        "English": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=english&view=exams&level=02",
+        "Maths": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=math&view=exams&level=02",
+        "Chemistry": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=chemistry&view=exams&level=02",
+        "Physics": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=physics&view=exams&level=02",
+        "Biology": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=biology&view=exams&level=02"
     }
 
     # Function to handle suggestion selection
