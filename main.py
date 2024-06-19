@@ -159,13 +159,9 @@ class App():
         if messagebox.askyesno("Exit", "Are you sure you want to exit Right Way?"):
             self.root.destroy()
 
-
-
-
     #### MAIN INTERFACE ####
 
     def open_main_interface(self):
-        global main_interface
         self.root.destroy()
 
         self.main_interface = Tk()
@@ -197,67 +193,107 @@ class App():
         if messagebox.askyesno("Logout", "Are you sure you want to log out from Right Way?"):
             self.main_interface.destroy()
 
-    
-
     def click_here(self,message):
-        self.show_loading(f"Taking you to the {message} page")
-        self.main_interface.after(2000, self.open_resources_page)
+        self.show_loading(f"Taking you to the {message} page", 1000)
+        if message == "resources":
+            self.main_interface.after(1000, self.open_resources_page)
 
-        # Frame for resources and materials
-        self.resources_frame = Frame(self.main_interface, bg="#F2EEE3", bd=2, relief="groove")
-        self.resources_frame.pack(padx=20, pady=20, fill="x")
+    # Function to show a loading message
+    def show_loading(self, message, delay):
+        loading_window = Toplevel(self.main_interface)
+        loading_window.title("Loading")
+        loading_window.geometry("300x100")
+        loading_window.config(bg="#F2EEE3")
 
-        self.resources_label = Label(self.resources_frame, text="RESOURCES AND MATERIALS", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
-        self.resources_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+        self.center_window(loading_window, 300, 100)
 
-        self.resources_desc = Label(self.resources_frame, text="Our resources section offers a variety of materials to help you excel in your studies. Access textbooks, study guides, and more.", bg="#F2EEE3", font=("Arial", 12), wraplength=550, anchor="w", justify="left")
-        self.resources_desc.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+        message_label = Label(loading_window, text=message, bg="#F2EEE3", font=("Arial", 14))
+        message_label.pack(pady=20)
 
-        self.resources_button = Button(self.resources_frame, text="Click here", bg="#BCA0A0", command=lambda: self.click_here("resources"))
-        self.resources_button.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+        self.main_interface.after(delay, loading_window.destroy)
 
-        self.resources_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Books.png')
-        self.images['resources_image'] = PhotoImage(file=self.resources_image_path)
-        self.resources_label_img = Label(self.resources_frame, image=self.images['resources_image'], bg="#F2EEE3")
-        self.resources_label_img.grid(row=0, column=1, rowspan=3, padx=50, pady=10)
+    #### RESOURCES AND MATERIALS ####
 
-        # Frame for calendar
-        self.calendar_frame = Frame(self.main_interface, bg="#F2EEE3", bd=2, relief="groove")
-        self.calendar_frame.pack(padx=20, pady=10, fill="x")
+    def open_resources_page(self):
+        self.resources_page = Toplevel(self.main_interface)
+        self.resources_page.title("Resources and Materials")
+        self.resources_page.geometry("1100x900")
+        self.resources_page.config(bg="#F2EEE3")
+        self.center_window(self.resources_page, 1100, 900)
 
-        self.calendar_label = Label(self.calendar_frame, text="CALENDAR", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
-        self.calendar_label.grid(row=0, column=1, padx=85, pady=10, sticky="w")
+        logo_label = Label(self.resources_page, image=self.resized_logo_image, bg="#F2EEE3")
+        logo_label.pack(pady=(10, 10))
 
-        self.calendar_desc = Label(self.calendar_frame, text="Keep track of important dates and events with our integrated calendar. Stay organized and never miss a deadline.", bg="#F2EEE3", font=("Arial", 12), wraplength=550, anchor="w", justify="left")
-        self.calendar_desc.grid(row=1, column=1, padx=85, pady=10, sticky="w")
+        logout_button = Button(self.resources_page, text="Logout", bg="#BCA0A0", command=self.confirm_logout)
+        logout_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)
 
-        self.calendar_button = Button(self.calendar_frame, text="Click here", bg="#BCA0A0", command=lambda: self.click_here("calendar"))
-        self.calendar_button.grid(row=2, column=1, padx=85, pady=10, sticky="w")
+        resources_desc_label = Label(self.resources_page, text="Find resources and materials for your NCEA Level 2 subjects below.", bg="#F2EEE3", font=("Arial", 14), wraplength=600, anchor="w", justify="left")
+        resources_desc_label.pack(pady=(20, 10))
 
-        self.calendar_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Calendar.png')
-        self.images['calendar_image'] = PhotoImage(file=self.calendar_image_path)
-        self.calendar_label_img = Label(self.calendar_frame, image=self.images['calendar_image'], bg="#F2EEE3")
-        self.calendar_label_img.grid(row=0, column=0, rowspan=3, padx=50, pady=10)
+        search_bar_frame = Frame(self.resources_page, bg="#F2EEE3")
+        search_bar_frame.pack(pady=(10, 10))
+        search_bar_label = Label(search_bar_frame, text="Search:", bg="#F2EEE3", font=("Arial", 14))
+        search_bar_label.pack(side=LEFT, padx=(10, 5))
+        search_bar_entry = Entry(search_bar_frame, font=("Arial", 14))
+        search_bar_entry.pack(side=LEFT, fill=X, expand=True)
 
-        # Frame for career advice
-        self.career_frame = Frame(self.main_interface, bg="#F2EEE3", bd=2, relief="groove")
-        self.career_frame.pack(padx=20, pady=10, fill="x")
+        # Function for handling search bar input
+        def on_search_input(event):
+            query = search_bar_entry.get().lower()
+            suggestions = [subject for subject in self.subjects if query in subject.lower()]
+            update_suggestions(suggestions)
 
-        self.career_label = Label(self.career_frame, text="CAREER ADVICE", bg="#F2EEE3", font=("Arial", 14, "bold"), anchor="w", justify="left")
-        self.career_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+        search_bar_entry.bind("<KeyRelease>", on_search_input)
 
-        self.career_desc = Label(self.career_frame, text="Our career advice section offers guidance to help you make informed decisions about your future career path. Get tips and advice from professionals.", bg="#F2EEE3", font=("Arial", 12), wraplength=550, anchor="w", justify="left")
-        self.career_desc.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+        # Listbox to display search suggestions
+        suggestions_listbox = Listbox(self.resources_page, font=("Arial", 14), bg="#F2EEE3")
+        suggestions_listbox.pack(pady=(10, 10), padx=20, fill=X)
 
-        self.career_button = Button(self.career_frame, text="Click here", bg="#BCA0A0", command=lambda: self.click_here("career advice"))
-        self.career_button.grid(row=2, column=0, padx=10, pady=2, sticky="w")
+        # Function to update suggestion list
+        def update_suggestions(suggestions):
+            suggestions_listbox.delete(0, END)
+            for suggestion in suggestions:
+                suggestions_listbox.insert(END, suggestion)
 
-        self.career_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Career Advice Girl.png')
-        self.images['career_image'] = PhotoImage(file=self.career_image_path)
-        self.career_label_img = Label(self.career_frame, image=self.images['career_image'], bg="#F2EEE3")
-        self.career_label_img.grid(row=0, column=1, rowspan=3, padx=20, pady=10)
+        # Function to handle suggestion selection
+        def on_suggestion_select(event):
+            selected_subject = suggestions_listbox.get(suggestions_listbox.curselection())
+            self.open_exam_links(selected_subject)
 
-        self.main_interface.mainloop()
+        suggestions_listbox.bind("<<ListboxSelect>>", on_suggestion_select)
+
+        # Add subject list
+        self.subjects = ["Accounting", "Economics", "English", "Maths", "Chemistry", "Physics", "Biology"]
+
+        self.internal_links = {
+            "Accounting": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=accounting&view=exams&level=02",
+            "Economics": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=economics&view=files&level=02",
+            "English": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=english&view=exams&level=02",
+            "Maths": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=math&view=exams&level=02",
+            "Chemistry": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=chemistry&view=exams&level=02",
+            "Physics": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=physics&view=exams&level=02",
+            "Biology": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=biology&view=exams&level=02"
+        }
+
+        self.external_links = {
+            "Accounting": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=accounting&view=exams&level=02",
+            "Economics": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=economics&view=files&level=02",
+            "English": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=english&view=exams&level=02",
+            "Maths": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=math&view=exams&level=02",
+            "Chemistry": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=chemistry&view=exams&level=02",
+            "Physics": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=physics&view=exams&level=02",
+            "Biology": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=biology&view=exams&level=02"
+        }
+
+    # Function to open exam links
+    def open_exam_links(self, subject):
+        if subject in self.internal_links:
+            link = self.internal_links[subject]
+            # open the link in a browser
+            import webbrowser
+            webbrowser.open(link)
+        else:
+            messagebox.showerror("Error", "No links available for the selected subject.")
 
 
 if __name__ == "__main__":
