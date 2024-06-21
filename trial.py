@@ -1,60 +1,167 @@
-from tkinter import *
-from tkinter import ttk, messagebox
-import os
+import tkinter as tk
+from tkinter import ttk
+import calendar
 
-# Function to center a window
-def center_window(window, width, height):
-    screen_width = window.winfo_screenwidth()
-    screen_height = window.winfo_screenheight()
-    x = int((screen_width / 2) - (width / 2))
-    y = int((screen_height / 2) - (height / 2))
-    window.geometry(f'{width}x{height}+{x}+{y}')
 
-# Function to confirm exit
-def confirm_exit():
-    center_window(root, 1100, 800)
-    if messagebox.askyesno("Exit", "Are you sure you want to exit Right Way?"):
-        root.destroy()
+def display_calendar():
+    # Get the year and month from entry fields
+    year = int(year_entry.get())
+    month = int(month_combobox.get())
 
-# Create the main window
-root = Tk()
-root.title("Resources and Materials")
-root.geometry("1100x900")
-root.config(bg="#F2EEE3")
 
-# Load and resize the logo image
-logo_image_path = os.path.join(os.path.dirname(__file__), 'images', 'logo.png')
-logo_image = PhotoImage(file=logo_image_path)
-resized_logo_image = logo_image.subsample(2, 2)
+    # Create a calendar object
+    cal = calendar.monthcalendar(year, month)
 
-# Display the logo
-logo_label = Label(root, image=resized_logo_image, bg="#F2EEE3")
-logo_label.pack(pady=(20, 20))
 
-# Add the logout button
-logout_button = Button(root, text="Logout", bg="#BCA0A0", command=confirm_exit)
-logout_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)
+    # Create a new Tkinter window for the calendar
+    calendar_window = tk.Toplevel(root)
+    calendar_window.title(f"Calendar - {calendar.month_name[month]} {year}")
 
-# Add the resources and materials text
-resources_text = "RESOURCES AND MATERIALS CLICK ON THE SEARCH BAR VISIBLE, AND SELECT THE SUBJECT YOU REQUIRE ASSISTANCE. HELP YOURSELVES BY GOING THROUGH WHAT THE SUBJECT OFFERS YOU FOR LEVEL TWO AND WE WISH YOU GOOD LUCK WITH YOUR STUDIES..."
-resources_label = Label(root, text=resources_text, bg="#F2EEE3", font=("Arial", 14), wraplength=500, justify="left")
-resources_label.pack(pady=(20, 20))
 
-# Add the search bar
-search_bar_frame = Frame(root, bg="#F2EEE3")
-search_bar_frame.pack(pady=(10, 10))
+    # Create labels to display the days of the week
+    days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    for i, day in enumerate(days):
+        tk.Label(calendar_window, text=day, width=5, font=('Arial', 10, 'bold')).grid(row=0, column=i)
 
-search_label = Label(search_bar_frame, text="Search:", bg="#F2EEE3", font=("Arial", 14))
-search_label.pack(side=LEFT, padx=(10, 5))
 
-search_entry = Entry(search_bar_frame, font=("Arial", 14))
-search_entry.pack(side=LEFT, fill=X, expand=True)
+    # Display the calendar data
+    for week_num, week in enumerate(cal, start=1):
+        for day_num, day in enumerate(week):
+            if day != 0:
+                # Determine the color of the label based on the day
+                if day_num in (5, 6):  # Weekend (Saturday and Sunday)
+                    label_color = 'red'
+                else:
+                    label_color = 'black'
 
-# Add the image of the girl pointing to the search bar
-resources_girl_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Resources Girl.png')
-resources_girl_image = PhotoImage(file=resources_girl_image_path)
 
-resources_girl_label = Label(root, image=resources_girl_image, bg="#F2EEE3")
-resources_girl_label.place(relx=1.0, rely=1.0, anchor='se', x=-20, y=-20)
+                # Create a label for the date
+                date_label = tk.Label(calendar_window, text=day, width=5, font=('Arial', 10), fg=label_color)
+                date_label.grid(row=week_num, column=day_num)
+
+
+                # Bind click event to each date label
+                date_label.bind("<Button-1>", lambda event, d=day, m=month: open_reminder_window(event, d, m))
+
+
+def open_reminder_window(event, day, month):
+    # Check if there is an existing reminder for the selected date
+    if (day, month) in reminders:
+        existing_reminder = reminders[(day, month)]
+        # Open a window to display existing reminder
+        reminder_window = tk.Toplevel(root)
+        reminder_window.title(f"Existing Reminder - {day}/{month}")
+
+
+        # Label to display existing reminder
+        tk.Label(reminder_window, text=f"Existing Reminder: {existing_reminder}", font=('Arial', 12)).pack()
+
+
+        # Button to remove existing reminder
+        def remove_reminder():
+            del reminders[(day, month)]
+            reminder_window.destroy()
+
+
+        remove_button = tk.Button(reminder_window, text="Remove Existing Reminder", command=remove_reminder)
+        remove_button.pack()
+
+
+        # Button to add reminder
+        def add_reminder():
+            # Open window to add new reminder
+            add_reminder_window = tk.Toplevel(root)
+            add_reminder_window.title(f"Add Reminder - {day}/{month}")
+
+
+            # Entry field for new reminder
+            reminder_entry = tk.Entry(add_reminder_window, width=30)
+            reminder_entry.pack()
+
+
+            # Function to set new reminder
+            def set_reminder():
+                reminder_text = reminder_entry.get()
+                reminders[(day, month)] = reminder_text
+                add_reminder_window.destroy()
+
+
+            # Button to set new reminder
+            set_button = tk.Button(add_reminder_window, text="Add Reminder", command=set_reminder)
+            set_button.pack()
+
+
+        add_button = tk.Button(reminder_window, text="Add Reminder", command=add_reminder)
+        add_button.pack()
+
+
+        # Button to close the reminder window
+        close_button = tk.Button(reminder_window, text="Back", command=reminder_window.destroy)
+        close_button.pack()
+
+
+    else:
+        # If no existing reminder, proceed with setting a new reminder
+        set_reminder_window(day, month)
+
+
+def set_reminder_window(day, month):
+    # Create a new Tkinter window for setting reminders
+    reminder_window = tk.Toplevel(root)
+    reminder_window.title(f"Set Reminder - {day}/{month}")
+
+
+    # Label for selected date
+    tk.Label(reminder_window, text=f"Set Reminder for {day}/{month}", font=('Arial', 12)).pack()
+
+
+    # Entry field for setting reminder
+    reminder_entry = tk.Entry(reminder_window, width=30)
+    reminder_entry.pack()
+
+
+    # Function to set reminder
+    def set_reminder():
+        reminder_text = reminder_entry.get()
+        # Store the reminder with the corresponding date
+        reminders[(day, month)] = reminder_text
+        # Close the reminder window
+        reminder_window.destroy()
+
+
+    # Button to set reminder
+    set_button = tk.Button(reminder_window, text="Set Reminder", command=set_reminder)
+    set_button.pack()
+
+
+# Create the main Tkinter window
+root = tk.Tk()
+root.title("Visual Calendar")
+
+
+# Entry field for year
+tk.Label(root, text="Year:").grid(row=0, column=0)
+year_entry = tk.Entry(root)
+year_entry.grid(row=0, column=1)
+
+
+# Combobox for month selection
+tk.Label(root, text="Month:").grid(row=1, column=0)
+month_combobox = ttk.Combobox(root, values=list(range(1, 13)))
+month_combobox.grid(row=1, column=1)
+month_combobox.current(0)  # Set default value to January (index 0)
+
+
+# Button to display calendar
+display_button = tk.Button(root, text="Display Calendar", command=display_calendar)
+display_button.grid(row=2, columnspan=2)
+
+
+# Dictionary to store reminders
+reminders = {}
+
 
 root.mainloop()
+
+
+

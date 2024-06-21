@@ -171,8 +171,15 @@ class App():
 
     def click_here(self,message):
         self.show_loading(f"Taking you to the {message} page", 1000)
-        if message == "resources":
-            self.open_main_interface.after(2000, self.open_resources_page)
+
+        if message == "resource":
+            self.main_interface.after(2000, self.open_resources_page)
+            #time.sleep(2)
+            #self.open_resources_page()
+        elif message == "calendar":
+            self.main_interface.after(2000, self.open_resources_page)
+            #time.sleep(2)
+            #self.open_resources_page()
 
 
     # Function to show a loading message
@@ -286,6 +293,7 @@ class App():
     #### RESOURCES AND MATERIALS ####
 
     def open_resources_page(self):
+        print("Opening resource page")
         self.resources_page = Toplevel(self.main_interface)
         self.resources_page.title("Resources and Materials")
         self.resources_page.geometry("1100x900")
@@ -308,13 +316,7 @@ class App():
         search_bar_entry = Entry(search_bar_frame, font=("Arial", 14))
         search_bar_entry.pack(side=LEFT, fill=X, expand=True)
 
-        # Add the image of the girl pointing to the search bar
-        resources_girl_image_path = os.path.join(os.path.dirname(__file__), 'images', 'Resources Girl.png')
-        resources_girl_image = PhotoImage(file=resources_girl_image_path)
-
-        resources_girl_label = Label(self.open_resources_page, image=resources_girl_image, bg="#F2EEE3")
-        resources_girl_label.place(relx=1.0, rely=1.0, anchor='se', x=-20, y=-20)       
-
+       
         # Function for handling search bar input
         def on_search_input(event):
             query = search_bar_entry.get().lower()
