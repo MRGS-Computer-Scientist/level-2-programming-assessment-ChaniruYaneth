@@ -177,6 +177,7 @@ def set_reminder_window(day, month, year, reminder_text=""):
 root = tk.Tk()
 root.title("Advanced Calendar")
 root.geometry("1000x800")
+root.config(bg="#F2EEE3")
 
 
 # Frame for year and month input
