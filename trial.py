@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import calendar
 from datetime import datetime
 import json
@@ -16,53 +16,38 @@ def load_reminders():
     if os.path.exists("reminders.json"):
         with open("reminders.json", "r") as file:
             reminders = json.load(file)
+            # Convert any single reminder strings to lists
+            reminders = {k: [v] if isinstance(v, str) else v for k, v in reminders.items()}
     else:
         reminders = {}
 
-def display_calendar(year=None, month=None):
-    global calendar_window, days_frame
+def display_calendar():
+    year = year_entry.get().strip()
+    month = month_combobox.get().strip()
 
-    # Get the current year and month if not provided
-    if year is None or month is None:
-        year = int(year_entry.get())
-        month = int(month_combobox.get())
+    # Check if year and month are provided
+    if not year or not month:
+        tk.messagebox.showerror("Error", "Please enter both year and select month.")
+        return
+
+    try:
+        year = int(year)
+        month = int(month)
+    except ValueError:
+        tk.messagebox.showerror("Error", "Year and month must be integers.")
+        return
+
+    # Clear any existing calendar display
+    for widget in days_frame.winfo_children():
+        widget.destroy()
 
     # Create a calendar object
     cal = calendar.monthcalendar(year, month)
 
-    # Create or update the calendar window
-    if 'calendar_window' in globals() and calendar_window.winfo_exists():
-        calendar_window.destroy()
-
-    calendar_window = tk.Toplevel(root)
-    calendar_window.title(f"Calendar - {calendar.month_name[month]} {year}")
-    calendar_window.geometry("800x600")
-
-    # Create a frame for the navigation and calendar
-    main_frame = tk.Frame(calendar_window, bg="lightblue")
-    main_frame.pack(expand=True, fill=tk.BOTH)
-
-    # Create navigation buttons
-    nav_frame = tk.Frame(main_frame, bg="lightblue")
-    nav_frame.pack(pady=10)
-
-    prev_month_button = tk.Button(nav_frame, text="<", command=lambda: navigate_month(year, month, -1))
-    prev_month_button.grid(row=0, column=0, padx=10)
-
-    next_month_button = tk.Button(nav_frame, text=">", command=lambda: navigate_month(year, month, 1))
-    next_month_button.grid(row=0, column=2, padx=10)
-
-    current_label = tk.Label(nav_frame, text=f"{calendar.month_name[month]} {year}", font=('Arial', 14, 'bold'), bg="lightblue")
-    current_label.grid(row=0, column=1)
-
-    # Create a frame for the calendar days
-    days_frame = tk.Frame(main_frame, bg="lightblue")
-    days_frame.pack()
-
     # Create labels to display the days of the week
     days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     for i, day in enumerate(days):
-        tk.Label(days_frame, text=day, width=12, font=('Arial', 10, 'bold'), bg="white", relief="solid").grid(row=0, column=i, padx=1, pady=1)
+        tk.Label(days_frame, text=day, width=12, font=('Arial', 10, 'bold'), bg="lightblue", relief="solid").grid(row=0, column=i, padx=5, pady=1)
 
     # Display the calendar data
     today = datetime.today()
@@ -83,62 +68,47 @@ def display_calendar(year=None, month=None):
 
                 # Check for reminders
                 date_key = f"{year}-{month}-{day}"
-                reminder_text = "\n".join(reminders.get(date_key, []))
+                reminder_texts = reminders.get(date_key, [])
 
                 # Create a label for the date
-                date_label = tk.Label(days_frame, text=f"{day}\n{reminder_text}", width=12, height=6, font=('Arial', 10), fg=label_color, bg=label_bg, relief="ridge", bd=1)
+                date_label = tk.Label(days_frame, text=f"{day}\n{', '.join(reminder_texts)}", width=12, height=6, font=('Arial', 10), fg=label_color, bg=label_bg, relief="ridge", bd=1, justify=tk.LEFT)
                 date_label.grid(row=week_num, column=day_num, padx=1, pady=1)
 
-                # Bind click event to each date label
-                date_label.bind("<Button-1>", lambda event, d=day, m=month, y=year: open_reminder_window(event, d, m, y))
+                # Bind click event to each date label (left-click for touch, right-click for context menu)
+                date_label.bind("<Button-1>", lambda event, d=day, m=month, y=year, r=reminder_texts: open_reminder_menu(event, d, m, y, r))
+                date_label.bind("<Button-3>", lambda event, d=day, m=month, y=year, r=reminder_texts: open_reminder_menu(event, d, m, y, r))
 
-def navigate_month(year, month, delta):
-    new_month = month + delta
-    new_year = year
+def open_reminder_menu(event, day, month, year, reminders):
+    menu = tk.Menu(root, tearoff=0)
 
-    if new_month < 1:
-        new_month = 12
-        new_year -= 1
-    elif new_month > 12:
-        new_month = 1
-        new_year += 1
+    if not reminders:
+        menu.add_command(label="Set Reminder", command=lambda: set_reminder_window(day, month, year))
+    else:
+        for reminder in reminders:
+            menu.add_command(label=reminder, command=lambda r=reminder: confirm_remove_reminder(day, month, year, r))
 
-    display_calendar(new_year, new_month)
+        menu.add_separator()
+        menu.add_command(label="Add Reminder", command=lambda: set_reminder_window(day, month, year))
+        menu.add_command(label="Cancel")
 
-def open_reminder_window(event, day, month, year):
-    # Check if there are existing reminders for the selected date
+    try:
+        menu.tk_popup(event.x_root, event.y_root, 0)
+    finally:
+        menu.grab_release()
+
+def confirm_remove_reminder(day, month, year, reminder_text):
+    confirm = messagebox.askyesno("Confirm Remove", "Remove existing reminder?")
+    if confirm:
+        remove_reminder(day, month, year, reminder_text)
+
+def remove_reminder(day, month, year, reminder_text):
     date_key = f"{year}-{month}-{day}"
-    existing_reminders = reminders.get(date_key, [])
-
-    # Open a window to display existing reminders
-    reminder_window = tk.Toplevel(root)
-    reminder_window.title(f"Reminders - {day}/{month}/{year}")
-
-    def remove_reminder(reminder):
-        existing_reminders.remove(reminder)
-        if not existing_reminders:
+    if date_key in reminders:
+        reminders[date_key].remove(reminder_text)
+        if not reminders[date_key]:
             del reminders[date_key]
         save_reminders()
-        reminder_window.destroy()
-        display_calendar(year, month)  # Refresh calendar to update reminder display
-
-    for reminder in existing_reminders:
-        frame = tk.Frame(reminder_window)
-        frame.pack(fill='x', pady=5)
-        tk.Label(frame, text=reminder, font=('Arial', 12)).pack(side='left')
-        remove_button = tk.Button(frame, text="Remove", command=lambda r=reminder: remove_reminder(r))
-        remove_button.pack(side='right')
-
-    # Button to add a new reminder
-    def add_reminder():
-        set_reminder_window(day, month, year)
-
-    add_button = tk.Button(reminder_window, text="Add Reminder", command=add_reminder)
-    add_button.pack(pady=10)
-
-    # Button to close the reminder window
-    close_button = tk.Button(reminder_window, text="Back", command=reminder_window.destroy)
-    close_button.pack(pady=10)
+        display_calendar()  # Refresh calendar to update reminder display
 
 def set_reminder_window(day, month, year, reminder_text=""):
     # Create a new Tkinter window for setting reminders
@@ -155,44 +125,59 @@ def set_reminder_window(day, month, year, reminder_text=""):
 
     # Function to set reminder
     def set_reminder():
-        reminder_text = reminder_entry.get()
-        date_key = f"{year}-{month}-{day}"
-        if date_key in reminders:
-            reminders[date_key].append(reminder_text)
+        reminder_text = reminder_entry.get().strip()
+        if reminder_text:
+            date_key = f"{year}-{month}-{day}"
+            if date_key in reminders:
+                reminders[date_key].append(reminder_text)
+            else:
+                reminders[date_key] = [reminder_text]
+            save_reminders()
+            # Close the reminder window
+            reminder_window.destroy()
+            display_calendar()  # Refresh calendar to update reminder display
         else:
-            reminders[date_key] = [reminder_text]
-        save_reminders()
-        # Close the reminder window
-        reminder_window.destroy()
-        display_calendar(year, month)  # Refresh calendar to update reminder display
+            tk.messagebox.showerror("Error", "Reminder cannot be empty.")
 
     # Button to set reminder
     set_button = tk.Button(reminder_window, text="Set Reminder", command=set_reminder)
     set_button.pack()
 
+    # Button to close the reminder window
+    close_button = tk.Button(reminder_window, text="Back", command=reminder_window.destroy)
+    close_button.pack()
+
 # Create the main Tkinter window
 root = tk.Tk()
 root.title("Advanced Calendar")
-root.geometry("300x150")
+root.geometry("1000x800")
+root.config(bg="#F2EEE3")
+
+# Frame for year and month input
+input_frame = tk.Frame(root)
+input_frame.pack(pady=20)
 
 # Entry field for year
-tk.Label(root, text="Year:").grid(row=0, column=0)
-year_entry = tk.Entry(root)
+tk.Label(input_frame, text="Year:").grid(row=0, column=0)
+year_entry = tk.Entry(input_frame)
 year_entry.grid(row=0, column=1)
 
 # Combobox for month selection
-tk.Label(root, text="Month:").grid(row=1, column=0)
-month_combobox = ttk.Combobox(root, values=list(range(1, 13)))
-month_combobox.grid(row=1, column=1)
+tk.Label(input_frame, text="Month:").grid(row=0, column=2)
+month_combobox = ttk.Combobox(input_frame, values=list(range(1, 13)))
+month_combobox.grid(row=0, column=3)
 month_combobox.current(datetime.today().month - 1)  # Set default value to the current month
 
 # Button to display calendar
-display_button = tk.Button(root, text="Display Calendar", command=display_calendar)
-display_button.grid(row=2, columnspan=2)
+display_button = tk.Button(input_frame, text="Display Calendar", command=display_calendar)
+display_button.grid(row=0, column=4, padx=10)
+
+# Frame for displaying calendar
+days_frame = tk.Frame(root, bg="lightblue")
+days_frame.pack(expand=True, fill=tk.BOTH, padx=20, pady=20)
 
 # Dictionary to store reminders
 reminders = {}
 load_reminders()  # Load reminders from file
 
 root.mainloop()
-

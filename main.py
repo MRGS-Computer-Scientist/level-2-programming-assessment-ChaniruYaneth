@@ -1,7 +1,11 @@
 from tkinter import *
 from tkinter import ttk, messagebox
+from datetime import datetime
+import tkinter as tk
 import time
 import csv
+import calendar
+import json
 import os
 
 class App():
@@ -177,7 +181,7 @@ class App():
             #time.sleep(2)
             #self.open_resources_page()
         elif message == "calendar":
-            self.main_interface.after(2000, self.open_resources_page)
+            self.main_interface.after(2000, self.open_calendar_page)
             #time.sleep(2)
             #self.open_resources_page()
 
@@ -306,7 +310,7 @@ class App():
         logout_button = Button(self.resources_page, text="Logout", bg="#BCA0A0", command=self.confirm_logout)
         logout_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)
 
-        resources_desc_label = Label(self.resources_page, text="Find resources and materials for your NCEA Level 2 subjects below.", bg="#F2EEE3", font=("Arial", 14), wraplength=600, anchor="w", justify="left")
+        resources_desc_label = Label(self.resources_page, text="CLICK ON THE SEARCH BAR VISIBLE, AND SELECT THE SUBJECT YOU REQUIRE ASSISTANCE.\n\nHELP YOURSELVES BY GOING THROUGH WHAT THE SUBJECT OFFERS YOU FOR LEVEL TWO AND WE WISH YOU GOOD LUCK WITH YOUR STUDIES...", bg="#F2EEE3", font=("Arial", 12), wraplength=950, anchor="w", justify="left")
         resources_desc_label.pack(pady=(20, 10))
 
         search_bar_frame = Frame(self.resources_page, bg="#F2EEE3")
@@ -316,7 +320,6 @@ class App():
         search_bar_entry = Entry(search_bar_frame, font=("Arial", 14))
         search_bar_entry.pack(side=LEFT, fill=X, expand=True)
 
-       
         # Function for handling search bar input
         def on_search_input(event):
             query = search_bar_entry.get().lower()
@@ -326,7 +329,7 @@ class App():
         search_bar_entry.bind("<KeyRelease>", on_search_input)
 
         # Listbox to display search suggestions
-        suggestions_listbox = Listbox(self.resources_page, font=("Arial", 14), bg="#F2EEE3")
+        suggestions_listbox = Listbox(self.resources_page, font=("Arial", 14), bg="#F2EEE3", width=50)  # Reduced width to 50
         suggestions_listbox.pack(pady=(10, 10), padx=20, fill=X)
 
         # Function to update suggestion list
@@ -365,15 +368,219 @@ class App():
             "Biology": "https://www.nzqa.govt.nz/ncea/assessment/search.do?query=biology&view=exams&level=02"
         }
 
-    # Function to open exam links
+        # Load and display the image on the right side
+        self.image_path = "images/Resources Girl.png"
+        self.resource_image = PhotoImage(file=self.image_path)
+        image_label = Label(self.resources_page, image=self.resource_image, bg="#F2EEE3")
+        image_label.pack(side=RIGHT, padx=(10, 20), pady=(10, 20))
+
+        
+
+        # Function to open exam links
     def open_exam_links(self, subject):
-        if subject in self.internal_links:
-            link = self.internal_links[subject]
-            # open the link in a browser
-            import webbrowser
-            webbrowser.open(link)
-        else:
-            messagebox.showerror("Error", "No links available for the selected subject.")
+            if subject in self.internal_links:
+                link = self.internal_links[subject]
+                # open the link in a browser
+                import webbrowser
+                webbrowser.open(link)
+            else:
+                messagebox.showerror("Error", "No links available for the selected subject.")
+
+
+
+### Calendar Page ###
+
+    def open_calendar_page(self):
+        print("Opening calendar page")
+        self.calendar_page = Toplevel(self.main_interface)
+        self.calendar_page.title("Calendar")
+        self.calendar_page.geometry("1100x900")
+        self.calendar_page.config(bg="#F2EEE3")
+        self.center_window(self.calendar_page, 1100, 900)
+
+        logo_label = Label(self.calendar_page, image=self.resized_logo_image, bg="#F2EEE3")
+        logo_label.pack(pady=(10, 10))
+
+        logout_button = Button(self.calendar_page, text="Logout", bg="#BCA0A0", command=self.confirm_logout)
+        logout_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)
+
+        calendar_desc_label = Label(self.calendar_page, text="USE OUR CALENDAR FUNCTIONALITY TO SET IMPORTANT EVENTS BY CLICKING ON DATES. IT ALLOWS ACCOMMODATES THE FACILITIES TO ADD, REMOVE OR EDIT REMINDERS.\n\nFURTHERMORE, ALLOWING YOU TO CALCULATE THE REMAINING TIME FOR CERTAIN EVENTS ENABLING YOU TO PLAN AND MANAGE TIME EFFICIENTLY.", bg="#F2EEE3", font=("Arial", 12), wraplength=950, anchor="w", justify="left")
+        calendar_desc_label.pack(pady=(20, 10))
+
+
+
+        def save_reminders(self):
+            with open("reminders.json", "w") as file:
+                json.dump(reminders, file)
+
+# Function to load reminders from a JSON file
+        def load_reminders(self):
+            global reminders
+            if os.path.exists("reminders.json"):
+                with open("reminders.json", "r") as file:
+                    reminders = json.load(file)
+            # Convert any single reminder strings to lists
+                    reminders = {k: [v] if isinstance(v, str) else v for k, v in reminders.items()}
+            else:
+                reminders = {}
+
+        def display_calendar(self):
+            year = self.year_entry.get().strip()
+            month = self.month_combobox.get().strip()
+
+    # Check if year and month are provided
+            if not year or not month:
+                self.tk.messagebox.showerror("Error", "Please enter both year and select month.")
+                return
+
+            try:
+                year = int(year)
+                month = int(month)
+            except ValueError:
+                self.tk.messagebox.showerror("Error", "Year and month must be integers.")
+                return
+
+    # Clear any existing calendar display
+            for widget in self.days_frame.winfo_children():
+                widget.destroy()
+
+    # Create a calendar object
+        cal = calendar.monthcalendar(self.year, self.month)
+
+    # Create labels to display the days of the week
+        days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        for i, day in enumerate(days):
+            self.tk.Label(self.days_frame, text=day, width=12, font=('Arial', 10, 'bold'), bg="lightblue", relief="solid").grid(row=0, column=i, padx=5, pady=1)
+
+    # Display the calendar data
+        today = datetime.today()
+        for week_num, week in enumerate(cal, start=1):
+            for day_num, day in enumerate(week):
+                if day != 0:
+                # Determine the color of the label based on the day
+                    if day_num in (5, 6):  # Weekend (Saturday and Sunday)
+                        label_color = 'red'
+                    else:
+                        label_color = 'black'
+
+                # Highlight current day
+                    if self.year == today.year and self.month == today.month and day == today.day:
+                        label_bg = 'yellow'
+                    else:
+                        label_bg = 'white'
+
+                # Check for reminders
+                    date_key = f"{self.year}-{self.month}-{day}"
+                    reminder_texts = reminders.get(date_key, [])
+
+                # Create a label for the date
+                    date_label = self.tk.Label(self.days_frame, text=f"{day}\n{', '.join(reminder_texts)}", width=12, height=6, font=('Arial', 10), fg=label_color, bg=label_bg, relief="ridge", bd=1, justify=self.tk.LEFT)
+                    date_label.grid(row=week_num, column=day_num, padx=1, pady=1)
+
+                # Bind click event to each date label (left-click for touch, right-click for context menu)
+                    date_label.bind("<Button-1>", lambda event, d=day, m=self.month, y=self.year, r=reminder_texts: open_reminder_menu(event, d, m, y, r))
+                    date_label.bind("<Button-3>", lambda event, d=day, m=self.month, y=self.year, r=reminder_texts: open_reminder_menu(event, d, m, y, r))
+
+        def open_reminder_menu(event, day, month, year, reminders):
+            menu = self.tk.Menu(self.calendar_page, tearoff=0)
+
+            if not reminders:
+                menu.add_command(label="Set Reminder", command=lambda: set_reminder_window(day, month, year))
+            else:
+                for reminder in reminders:
+                    menu.add_command(label=reminder, command=lambda r=reminder: confirm_remove_reminder(day, month, year, r))
+
+                menu.add_separator()
+                menu.add_command(label="Add Reminder", command=lambda: set_reminder_window(day, month, year))
+                menu.add_command(label="Cancel")
+
+        try:
+            self.menu.tk_popup(self.event.x_root, self.event.y_root, 0)
+        finally:
+            self.menu.grab_release()
+
+        def confirm_remove_reminder(day, month, year, reminder_text):
+            confirm = messagebox.askyesno("Confirm Remove", "Remove existing reminder?")
+            if confirm:
+                remove_reminder(day, month, year, reminder_text)
+
+        def remove_reminder(day, month, year, reminder_text):
+            date_key = f"{year}-{month}-{day}"
+            if date_key in reminders:
+                reminders[date_key].remove(reminder_text)
+                if not reminders[date_key]:
+                    del reminders[date_key]
+                save_reminders()
+                display_calendar()  # Refresh calendar to update reminder display
+
+        def set_reminder_window(day, month, year, reminder_text=""):
+    # Create a new Tkinter window for setting reminders
+            reminder_window = self.tk.Toplevel(self.calendar_page)
+            reminder_window.title(f"Set Reminder - {day}/{month}/{year}")
+
+    # Label for selected date
+            self.tk.Label(reminder_window, text=f"Set Reminder for {day}/{month}/{year}", font=('Arial', 12)).pack()
+
+    # Entry field for setting reminder
+            reminder_entry = self.tk.Entry(reminder_window, width=30)
+            reminder_entry.insert(0, reminder_text)
+            reminder_entry.pack()
+
+    # Function to set reminder
+        def set_reminder():
+            reminder_text = self.reminder_entry.get().strip()
+            if reminder_text:
+                date_key = f"{self.year}-{self.month}-{day}"
+                if date_key in reminders:
+                    reminders[date_key].append(reminder_text)
+                else:
+                    reminders[date_key] = [reminder_text]
+                save_reminders()
+            # Close the reminder window
+                self.reminder_window.destroy()
+                display_calendar()  # Refresh calendar to update reminder display
+            else:
+                self.tk.messagebox.showerror("Error", "Reminder cannot be empty.")
+
+    # Button to set reminder
+        set_button = self.tk.Button(self.reminder_window, text="Set Reminder", command=set_reminder)
+        set_button.pack()
+
+    # Button to close the reminder window
+        close_button = self.tk.Button(self.reminder_window, text="Back", command=self.reminder_window.destroy)
+        close_button.pack()
+
+        # Create the main Tkinter window
+        self.calendar_page = self.tk.Tk()
+        self.calendar_page.title("Advanced Calendar")
+        self.calendar_page.geometry("1000x800")
+
+        # Frame for year and month input
+        self.input_frame = self.tk.Frame(self.calendar_page)
+        self.input_frame.pack(pady=20)
+
+        # Entry field for year
+        self.tk.Label(self.input_frame, text="Year:").grid(row=0, column=0)
+        self.year_entry = self.tk.Entry(self.input_frame)
+        self.year_entry.grid(row=0, column=1)
+
+        # Combobox for month selection
+        self.tk.Label(self.input_frame, text="Month:").grid(row=0, column=2)
+        self.month_combobox = ttk.Combobox(self.input_frame, values=list(range(1, 13)))
+        self.month_combobox.grid(row=0, column=3)
+        self.month_combobox.current(datetime.today().month - 1)  # Set default value to the current month
+
+        # Button to display calendar
+        self.display_button = self.tk.Button(self.input_frame, text="Display Calendar", command=display_calendar)
+        self.display_button.grid(row=0, column=4, padx=10)
+
+        # Frame for displaying calendar
+        self.days_frame = self.tk.Frame(self.calendar_page, bg="lightblue")
+        self.days_frame.pack(expand=True, fill=self.tk.BOTH, padx=20, pady=20)
+
+        # Dictionary to store reminders
+        self.reminders = {}
+        self.load_reminders()  # Load reminders from file
 
 
 if __name__ == "__main__":
