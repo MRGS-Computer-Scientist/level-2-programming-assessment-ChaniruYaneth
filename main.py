@@ -185,6 +185,9 @@ class App():
             #time.sleep(2)
             #self.open_resources_page()
 
+        elif message == "career advice":
+            self.main_interface.after(2000, self.open_career_page)
+
 
     # Function to show a loading message
     def show_loading(self, message, delay):
@@ -404,7 +407,7 @@ class App():
         self.logout_button = tk.Button(self.calendar_page, text="Logout", bg="#BCA0A0", command=self.confirm_logout)
         self.logout_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)
 
-        self.calendar_desc_label = tk.Label(self.calendar_page, text="USE OUR CALENDAR FUNCTIONALITY TO SET IMPORTANT EVENTS BY CLICKING ON DATES. IT ALLOWS ACCOMMODATES THE FACILITIES TO ADD, REMOVE OR EDIT REMINDERS.\n\nFURTHERMORE, ALLOWING YOU TO CALCULATE THE REMAINING TIME FOR CERTAIN EVENTS ENABLING YOU TO PLAN AND MANAGE TIME EFFICIENTLY.", bg="#F2EEE3", font=("Arial", 12), wraplength=950, anchor="w", justify="left")
+        self.calendar_desc_label = tk.Label(self.calendar_page, text="USE OUR CALENDAR FUNCTIONALITY TO SET IMPORTANT EVENTS BY CLICKING ON DATES. IT ALLOWS ACCOMMODATES THE FACILITIES TO ADD, REMOVE OR EDIT REMINDERS.\n\nFURTHERMORE, ALLOWING YOU TO CALCULATE THE REMAINING TIME FOR CERTAIN EVENTS ENABLING YOU TO PLAN AND MANAGE TIME EFFICIENTLY.", bg="#F2EEE3", font=("Arial", 12), wraplength=980, anchor="w", justify="left")
         self.calendar_desc_label.pack(pady=(20, 10))
 
         # Frame for year and month input
@@ -547,13 +550,7 @@ class App():
         finally:
             self.menu.grab_release()
 
-
-    def confirm_remove_reminder(self, day, month, year, reminder_text):
-        confirm = messagebox.askyesno("Confirm Remove", "Remove existing reminder?")
-        if confirm:
-            remove_reminder(day, month, year, reminder_text)
-
-
+    
     def remove_reminder(self, day, month, year, reminder_text):
         date_key = f"{year}-{month}-{day}"
         if date_key in self.reminders:
@@ -562,6 +559,15 @@ class App():
                 del reminders[date_key]
             self.save_reminders()
             self.display_calendar()  # Refresh calendar to update reminder display
+
+
+
+
+    def confirm_remove_reminder(self, day, month, year, reminder_text):
+        confirm = messagebox.askyesno("Confirm Remove", "Remove existing reminder?")
+        if confirm:
+            remove_reminder(day, month, year, reminder_text)
+
 
 
     def set_reminder_window(self, day, month, year, reminder_text=""):
@@ -604,6 +610,33 @@ class App():
             self.display_calendar()  # Refresh calendar to update reminder display
         else:
             tk.messagebox.showerror("Error", "Reminder cannot be empty.")
+
+
+
+    ### CAREER ADVICE PAGE ###
+    def open_career_page(self):
+        print("Opening career page")
+        self.career_page = tk.Toplevel(self.main_interface)
+        self.career_page.title("Career Advice")
+        self.career_page.geometry("1100x900")
+        self.career_page.config(bg="#F2EEE3")
+        self.center_window(self.career_page, 1100, 900)
+
+        self.logo_label = tk.Label(self.career_page, image=self.resized_logo_image, bg="#F2EEE3")
+        self.logo_label.pack(pady=(10, 10))
+
+        self.logout_button = tk.Button(self.career_page, text="Logout", bg="#BCA0A0", command=self.confirm_logout)
+        self.logout_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)
+
+        self.career_desc_label = tk.Label(self.career_page, text="CLICK ON ANY OF THE THREE CAREER ADVICE TO SEE WHAT THEY PROVIDE YOU TO MAKE NCEA LEVEL TWO A SUCCESSFUL ACADEMIC YEAR.", bg="#F2EEE3", font=("Arial", 12), wraplength=980, anchor="w", justify="left")
+        self.career_desc_label.pack(pady=(20, 10))
+
+        # Load and display the image on the right side
+        self.image_path = "images/Third Girl.png"  # Ensure this path is correct
+        self.career_image = PhotoImage(file=self.image_path)
+        self.career_image_label = Label(self.career_page, image=self.career_image, bg="#F2EEE3")
+        self.career_image_label.pack(side=tk.RIGHT, padx=(10, 20), pady=(10, 20))
+
 
 
         
