@@ -634,8 +634,9 @@ class App():
         # Load and display the image on the right side
         self.image_path = "images/Third Girl.png"  # Ensure this path is correct
         self.career_image = PhotoImage(file=self.image_path)
-        self.career_image_label = Label(self.career_page, image=self.career_image, bg="#F2EEE3")
-        self.career_image_label.pack(side=tk.RIGHT, padx=(10, 20), pady=(10, 20))
+        image_label = Label(self.career_page, image=self.career_image, bg="#F2EEE3")
+        image_label.pack(side=tk.RIGHT, padx=(10, 20 ), pady=(30, 30))
+
 
 
 
