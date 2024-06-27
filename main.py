@@ -65,6 +65,8 @@ class App():
 
         self.root.mainloop()
 
+### Login Page ###
+
     # Function to load stored credentials
     def load_credentials(self):
         try:
@@ -165,7 +167,7 @@ class App():
 
 
 
-    #### MAIN INTERFACE ####
+#### MAIN INTERFACE ####
 
     # Function to confirm logout
     def confirm_logout(self):
@@ -173,6 +175,7 @@ class App():
         if messagebox.askyesno("Logout", "Are you sure you want to log out from Right Way?"):
             self.main_interface.destroy()
 
+    # Function for transition between pages
     def click_here(self,message):
         self.show_loading(f"Taking you to the {message} page", 1000)
 
@@ -203,7 +206,7 @@ class App():
 
         self.main_interface.after(delay, loading_window.destroy)
         
-
+    # Funtion to display the Main Interface Page layout
     def open_main_interface(self):
         self.root.destroy()
 
@@ -297,8 +300,11 @@ class App():
         self.main_interface.mainloop()
 
 
-    #### RESOURCES AND MATERIALS ####
 
+
+#### RESOURCES AND MATERIALS ####
+
+    # Funtion to display the Resources and Materials Page Layout
     def open_resources_page(self):
         print("Opening resource page")
         self.resources_page = Toplevel(self.main_interface)
@@ -379,7 +385,7 @@ class App():
 
         
 
-        # Function to open exam links
+    # Function to open exam links
     def open_exam_links(self, subject):
             if subject in self.internal_links:
                 link = self.internal_links[subject]
@@ -391,8 +397,10 @@ class App():
 
 
 
+
 ### Calendar Page ###
 
+    #Funtion to display the Calendar Page Layout
     def open_calendar_page(self):
         print("Opening calendar page")
         self.calendar_page = tk.Toplevel(self.main_interface)
@@ -443,7 +451,7 @@ class App():
         self.reminders = {}
         self.load_reminders()  # Load reminders from file
 
-# Function to save reminders to a JSON file
+    # Function to save reminders to a JSON file
     def save_reminders(self):
         with open("reminders.json", "w") as file:
             json.dump(self.reminders, file)
@@ -460,7 +468,7 @@ class App():
         else:
             self.reminders = {}
 
-
+    # Function to display the Calendar
     def display_calendar(self):
         year = self.year_entry.get().strip()
         month = self.month_combobox.get().strip()
@@ -528,7 +536,7 @@ class App():
                     date_label.bind("<Button-1>", lambda event, d=day, m=month, y=year, r=reminder_texts: self.open_reminder_menu(event, d, m, y, r))
                     date_label.bind("<Button-3>", lambda event, d=day, m=month, y=year, r=reminder_texts: self.open_reminder_menu(event, d, m, y, r))
 
-
+    # Function to open the date box and set reminders
     def open_reminder_menu(self, event, day, month, year, reminders):
         self.menu = tk.Menu(self.calendar_page, tearoff=0)
 
@@ -550,26 +558,30 @@ class App():
         finally:
             self.menu.grab_release()
 
-    
+    # Function to remove reminders on dates
     def remove_reminder(self, day, month, year, reminder_text):
         date_key = f"{year}-{month}-{day}"
         if date_key in self.reminders:
-            reminders[date_key].remove(reminder_text)
-            if not reminders[date_key]:
-                del reminders[date_key]
+            #print("KEY", date_key)
+            #print(type(date_key))
+            #print("REMINDER", reminder_text)
+            #print(self.reminders)
+            self.reminders.pop(reminder_text)
+            #if not self.reminders[date_key]:
+            #    del self.reminders[date_key]
             self.save_reminders()
             self.display_calendar()  # Refresh calendar to update reminder display
 
 
 
-
+    # Function to display the error message before the user removes the reminder
     def confirm_remove_reminder(self, day, month, year, reminder_text):
         confirm = messagebox.askyesno("Confirm Remove", "Remove existing reminder?")
         if confirm:
-            remove_reminder(day, month, year, reminder_text)
+            self.remove_reminder(day, month, year, reminder_text)
 
 
-
+    # Function to open up a window to set a reminder on a specific date
     def set_reminder_window(self, day, month, year, reminder_text=""):
         # Create a new Tkinter window for setting reminders
         self.reminder_window = tk.Toplevel(self.calendar_page)
@@ -613,7 +625,10 @@ class App():
 
 
 
-    ### CAREER ADVICE PAGE ###
+### CAREER ADVICE PAGE ###
+
+    import webbrowser
+    # Function to display the layout of the Career Advice Page
     def open_career_page(self):
         print("Opening career page")
         self.career_page = tk.Toplevel(self.main_interface)
@@ -628,14 +643,37 @@ class App():
         self.logout_button = tk.Button(self.career_page, text="Logout", bg="#BCA0A0", command=self.confirm_logout)
         self.logout_button.place(relx=1.0, rely=0.0, anchor='ne', x=-10, y=10)
 
-        self.career_desc_label = tk.Label(self.career_page, text="CLICK ON ANY OF THE THREE CAREER ADVICE TO SEE WHAT THEY PROVIDE YOU TO MAKE NCEA LEVEL TWO A SUCCESSFUL ACADEMIC YEAR.", bg="#F2EEE3", font=("Arial", 12), wraplength=980, anchor="w", justify="left")
-        self.career_desc_label.pack(pady=(20, 10))
+        self.career_desc_label = tk.Label(self.career_page, text="CLICK ON ANY OF THE THREE CAREER ADVICE TO SEE WHAT THEY PROVIDE YOU TO MAKE NCEA LEVEL TWO A SUCCESSFUL ACADEMIC YEAR.", bg="#F2EEE3", font=("Arial", 14), wraplength=980, anchor="w", justify="left")
+        self.career_desc_label.pack(pady=(20, 70))
+
+        # Create a frame to contain the left-aligned texts
+        text_frame = tk.Frame(self.career_page, bg="#F2EEE3")
+        text_frame.pack(padx=60)
+
+        # Add the three additional texts
+        structure_planning_label = tk.Label(self.career_page, text="1) Structure Planning>>>", bg="#F2EEE3", font=("Arial", 13), anchor="w", justify="left")
+        structure_planning_label.pack(pady=(5, 15), padx=(90, 5), anchor="w")
+
+        target_planning_label = tk.Label(self.career_page, text="2) Target Planning>>>", bg="#F2EEE3", font=("Arial", 13), anchor="w", justify="left")
+        target_planning_label.pack(pady=(5, 15), padx=(90, 5), anchor="w")
+
+        current_progress_label = tk.Label(self.career_page, text="3) Current Progress>>>", bg="#F2EEE3", font=("Arial", 13), anchor="w", justify="left")
+        current_progress_label.pack(pady=(5, 60), padx=(90, 5), anchor="w")
+
+    # Add the link
+        more_info_label = tk.Label(self.career_page, text="For more information:", bg="#F2EEE3", font=("Arial", 12), anchor="w", justify="left")
+        more_info_label.pack(pady=(5,9), padx=(90, 5), anchor="w")
+
+        link_label = tk.Label(self.career_page, text="https://www.mrgs.school.nz/", bg="#F2EEE3", font=("Arial", 12), fg="blue", cursor="hand2")
+        link_label.pack(pady=(3, 5), padx=(90, 5), anchor="w")
+        link_label.bind("<Button-1>", lambda e: self.webbrowser.open("https://www.mrgs.school.nz/"))
+
 
         # Load and display the image on the right side
         self.image_path = "images/Third Girl.png"  # Ensure this path is correct
         self.career_image = PhotoImage(file=self.image_path)
         image_label = Label(self.career_page, image=self.career_image, bg="#F2EEE3")
-        image_label.pack(side=tk.RIGHT, padx=(10, 20 ), pady=(30, 30))
+        image_label.pack(side=tk.RIGHT, padx=(10, 20 ), pady=(10, 30))
 
 
 
