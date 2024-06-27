@@ -304,6 +304,12 @@ class App():
 
 #### RESOURCES AND MATERIALS ####
 
+    # Function for the back button for the user to go to the previous page.
+    def go_back_resources(self):
+        print("Going back to main interface from resources page")
+        self.resources_page.destroy()
+
+
     # Funtion to display the Resources and Materials Page Layout
     def open_resources_page(self):
         print("Opening resource page")
@@ -312,6 +318,10 @@ class App():
         self.resources_page.geometry("1100x900")
         self.resources_page.config(bg="#F2EEE3")
         self.center_window(self.resources_page, 1100, 900)
+
+        self.back_button_resources = tk.Button(self.resources_page, text="Back", bg="#BCA0A0", command=self.go_back_resources, width=8, height=1)
+        self.back_button_resources.place(relx=0.0, rely=0.0, anchor='nw', x=10, y=10)
+
 
         logo_label = Label(self.resources_page, image=self.resized_logo_image, bg="#F2EEE3")
         logo_label.pack(pady=(10, 10))
@@ -400,6 +410,12 @@ class App():
 
 ### Calendar Page ###
 
+    # Function for the back button for the user to go to the previous page.
+    def go_back_calendar(self):
+        print("Going back to main interface from calendar page")
+        self.calendar_page.destroy()
+
+
     #Funtion to display the Calendar Page Layout
     def open_calendar_page(self):
         print("Opening calendar page")
@@ -408,6 +424,9 @@ class App():
         self.calendar_page.geometry("1100x900")
         self.calendar_page.config(bg="#F2EEE3")
         self.center_window(self.calendar_page, 1100, 900)
+
+        self.back_button_calendar = tk.Button(self.calendar_page, text="Back", bg="#BCA0A0", command=self.go_back_calendar, width=8, height=1)
+        self.back_button_calendar.place(relx=0.0, rely=0.0, anchor='nw', x=10, y=10)
 
         self.logo_label = tk.Label(self.calendar_page, image=self.resized_logo_image, bg="#F2EEE3")
         self.logo_label.pack(pady=(10, 10))
@@ -627,7 +646,14 @@ class App():
 
 ### CAREER ADVICE PAGE ###
 
+    # To open the web brwoser link
     import webbrowser
+
+    # Function for the back button for the user to go to the previous page.
+    def go_back_career(self):
+        print("Going back to main interface from career page")
+        self.career_page.destroy()
+
     # Function to display the layout of the Career Advice Page
     def open_career_page(self):
         print("Opening career page")
@@ -636,6 +662,9 @@ class App():
         self.career_page.geometry("1100x900")
         self.career_page.config(bg="#F2EEE3")
         self.center_window(self.career_page, 1100, 900)
+
+        self.back_button_career = tk.Button(self.career_page, text="Back", bg="#BCA0A0", command=self.go_back_career, width=8, height=1)
+        self.back_button_career.place(relx=0.0, rely=0.0, anchor='nw', x=10, y=10)
 
         self.logo_label = tk.Label(self.career_page, image=self.resized_logo_image, bg="#F2EEE3")
         self.logo_label.pack(pady=(10, 10))
@@ -676,10 +705,5 @@ class App():
         image_label.pack(side=tk.RIGHT, padx=(10, 20 ), pady=(10, 30))
 
 
-
-
-        
-
 if __name__ == "__main__":
     app = App()
-    
