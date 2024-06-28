@@ -99,6 +99,11 @@ class App():
             username = username_entry.get()
             password = password_entry.get()
             confirm_password = confirm_password_entry.get()
+
+            # Validate username length
+            if len(username) < 5 or len(username) > 20:
+                message_label.config(text="Username should be between 5 and 20 characters.")
+                return
             
             if password == confirm_password:
                 if username in self.users:
@@ -393,8 +398,7 @@ class App():
         image_label = Label(self.resources_page, image=self.resource_image, bg="#F2EEE3")
         image_label.pack(side=RIGHT, padx=(10, 20), pady=(10, 20))
 
-        
-
+    
     # Function to open exam links
     def open_exam_links(self, subject):
             if subject in self.internal_links:
