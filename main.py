@@ -7,6 +7,7 @@ import csv
 import calendar
 import json
 import os
+import re
 
 
 class App:
@@ -118,6 +119,20 @@ class App:
 
     # Function to create an account
     def create_account(self):
+
+        def contains_emoji(s):
+            emoji_pattern = re.compile(
+                "["
+                "\U0001F600-\U0001F64F" #emoticons
+                "\U0001F300-\U0001F5FF" #symbols and pictographs
+                "\U0001F680-\U0001F6FF" #transport and map symbols
+                "\U0001F1E0-\U0001F1FF" #flags (iOS)
+                "\U00002702-\U000027B0" #Dingbats
+                "\U000024C2-\U0001F251"
+                "]+", flags=re.UNICODE
+            )
+            return bool(emoji_pattern.search(s))
+        
         def submit():
             username = username_entry.get()
             password = password_entry.get()
@@ -127,6 +142,14 @@ class App:
             if len(username) < 5 or len(username) > 20:
                 message_label.config(
                     text="Username should be between 5 and 20 characters."
+                )
+                return
+            
+
+            # Validating username for emojis
+            if contains_emoji(username):
+                message_label.config(
+                    text="Emojis cannot be used in the username."
                 )
                 return
 
