@@ -512,9 +512,17 @@ class App:
         search_bar_entry = Entry(search_bar_frame, font=("Arial", 14))
         search_bar_entry.pack(side=LEFT, fill=X, expand=True)
 
+
         # Function for handling search bar input
         def on_search_input(event):
             query = search_bar_entry.get().lower()
+
+            # Check if the query contains any digits
+            if any(char.isdigit() for char in query):
+                messagebox.showerror("Error", "Numbers are not allowed in the search.")
+                return
+
+
             suggestions = [
                 subject for subject in self.subjects if query in subject.lower()
             ]
