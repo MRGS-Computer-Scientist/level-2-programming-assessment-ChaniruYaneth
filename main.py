@@ -286,7 +286,7 @@ class App:
         self.main_interface.after(delay, loading_window.destroy)
 
     # Funtion to display the Main Interface Page layout
-    def open_main_interface(self):
+    def open_main_interface(self): 
         self.root.destroy()
 
         self.main_interface = Tk()
