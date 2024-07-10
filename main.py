@@ -262,13 +262,8 @@ class App:
 
         if message == "resource":
             self.main_interface.after(2000, self.open_resources_page)
-            # time.sleep(2)
-            # self.open_resources_page()
         elif message == "calendar":
             self.main_interface.after(2000, self.open_calendar_page)
-            # time.sleep(2)
-            # self.open_resources_page()
-
         elif message == "career advice":
             self.main_interface.after(2000, self.open_career_page)
 
@@ -824,13 +819,7 @@ class App:
     def remove_reminder(self, day, month, year, reminder_text):
         date_key = f"{year}-{month}-{day}"
         if date_key in self.reminders:
-            # print("KEY", date_key)
-            # print(type(date_key))
-            # print("REMINDER", reminder_text)
-            # print(self.reminders)
             self.reminders.pop(reminder_text)
-            # if not self.reminders[date_key]:
-            #    del self.reminders[date_key]
             self.save_reminders()
             self.display_calendar()  # Refresh calendar to update reminder display
 
