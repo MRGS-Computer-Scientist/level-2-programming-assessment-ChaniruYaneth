@@ -222,8 +222,6 @@ class App:
         username = self.username_entry.get()
         password = self.password_entry.get()
 
-        # TODO: Add a check for the length of the username
-
         if username in self.users and self.users[username] == password:
             self.message_label.config(
                 text="You have successfully signed in. Enjoy Right Way!"
