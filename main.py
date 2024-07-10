@@ -138,6 +138,11 @@ class App:
             password = password_entry.get()
             confirm_password = confirm_password_entry.get()
 
+            # Check if any entry fields are empty
+            if not username or not password or not confirm_password:
+                message_label.config(text="Please fill up all entry fields.")
+                return
+
             # Validate username length
             if len(username) < 5 or len(username) > 20:
                 message_label.config(
