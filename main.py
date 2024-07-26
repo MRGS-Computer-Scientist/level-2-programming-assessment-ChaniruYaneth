@@ -123,11 +123,11 @@ class App:
         def contains_emoji(s):
             emoji_pattern = re.compile(
                 "["
-                "\U0001F600-\U0001F64F" #emoticons
-                "\U0001F300-\U0001F5FF" #symbols and pictographs
-                "\U0001F680-\U0001F6FF" #transport and map symbols
-                "\U0001F1E0-\U0001F1FF" #flags (iOS)
-                "\U00002702-\U000027B0" #Dingbats
+                "\U0001F600-\U0001F64F"  # emoticons
+                "\U0001F300-\U0001F5FF"  # symbols and pictographs
+                "\U0001F680-\U0001F6FF"  # transport and map symbols
+                "\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                "\U00002702-\U000027B0"  # Dingbats
                 "\U000024C2-\U0001F251"
                 "]+", flags=re.UNICODE
             )
@@ -687,7 +687,6 @@ class App:
 
     # Function to load reminders from a JSON file
     def load_reminders(self):
-        global reminders
         if os.path.exists("reminders.json"):
             with open("reminders.json", "r") as file:
                 self.reminders = json.load(file)
